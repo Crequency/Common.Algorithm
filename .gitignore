@@ -3,7 +3,10 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
-#CMake Project
+# Build Up
+build/
+
+# CMake Project
 out/
 
 # Publish files
