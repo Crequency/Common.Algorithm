@@ -8,6 +8,9 @@ com_cspro="bin/Debug/net6.0"
 binFiles="./build/"
 coreFiles="./build/Core"
 
+mkdir $binFiles
+mkdir $coreFiles
+
 echo "Copying CS Dll Project:"
 for i in "Algorithm.Interop"; do
     echo "    $i"
