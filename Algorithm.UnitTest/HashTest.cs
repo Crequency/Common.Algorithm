@@ -2,6 +2,7 @@
 using System;
 using Algorithm.Interop;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace Algorithm.UnitTest
 {
@@ -81,6 +82,26 @@ namespace Algorithm.UnitTest
             {
                 Console.WriteLine(item);
                 Console.WriteLine(BitConverter.ToString(BitConverter.GetBytes(item.GetHashCode())));
+            }
+        }
+
+        /// <summary>
+        /// 多线程测试
+        /// </summary>
+        [TestMethod]
+        public void BenchMark_MultiThreads()
+        {
+            List<Thread> threads = new();
+            for(int i = 0; i < 100; ++i)
+            {
+                threads.Add(new Thread(() =>
+                {
+
+                }));
+            }
+            foreach (Thread thread in threads)
+            {
+                thread.Start();
             }
         }
     }
