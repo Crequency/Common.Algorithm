@@ -62,7 +62,7 @@ namespace Algorithm.UnitTest
         }
 
         /// <summary>
-        /// 短长度字符串Hash测试
+        /// 短长度字符串原生Hash测试
         /// </summary>
         [TestMethod]
         public void BenchMark_1_Native()
