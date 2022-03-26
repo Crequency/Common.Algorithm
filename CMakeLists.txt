@@ -6,4 +6,6 @@ cmake_minimum_required (VERSION 3.8)
 project ("Algorithm")
 
 # 包含子项目。
+add_subdirectory ("Base")
 add_subdirectory ("Hash")
+add_subdirectory ("Math")
