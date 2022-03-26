@@ -38,6 +38,35 @@ namespace Algorithm.UnitTest
         }
 
         /// <summary>
+        /// 哈希算法64位压缩器测试
+        /// </summary>
+        [TestMethod]
+        public void FeasibilityTest_WithCompress()
+        {
+            string[] testData = new string[12]
+            {
+                "SHVIOSJDifjDKljkJ$*F$W*938r5834r89we9fIOSFJOIS",   // 基础 ASCII 测试
+                "SHVIOSJDifjDKljkJ$*F$W*939r5834r89we9fIOSFJOIS",   // 微变更测试 938 -> 939
+                "DHSJKfkl5262fads43234LKgjsd#$%$%#$%fjLKSdkfJLD",   // 大变更测试
+                "的是抗拒那就客服的撒滤镜打算离开房间啊w8e9832",           // 中文测试
+                "的是抗拒那就客服的撒滤镜打算离开房间啊w8e9132",           // 中文微变更测试 9832 -> 9132
+                "的dsa是fsd抗f拒s阿f斯是25是34会3卡死了的肌肤",           // 中文大变更测试
+                "^$#%#$@T#@$@#$%#@^#$#@^#@%$&$#*$!*()$*@)($*)(#@",  // 纯符号测试
+                "^$#%#$@T#@$@#$%#@^#$#@!#@%$&$#*$!*()$*@)($*)(#@",  // 纯符号微变更测试 ^ -> !
+                "^$#%#*$(**(&#@(*$#*%(@$*(#@()#@09(()$*!)#(@*(#@",  // 纯符号大变更测试
+                "🐦🐡🐣🐱💣",    // Emoji(Unicode) 测试
+                "🐦🐡💯🐱💣",    // Emoji(Unicode) 小变更测试 🐣 -> 💯
+                "💬💰💮🕷🚩"     // Emoji(Unicode) 大变更测试
+            };
+            for (int i = 0; i < testData.Length; ++i)
+            {
+                Console.WriteLine(testData[i]);
+                Console.WriteLine(Hash.FromString_ToHex_WithoutCompress(testData[i]));
+                Console.WriteLine(Hash.FromString_ToHex(testData[i], false));
+            }
+        }
+
+        /// <summary>
         /// 短长度字符串Hash测试
         /// </summary>
         [TestMethod]
