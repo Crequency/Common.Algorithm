@@ -19,7 +19,7 @@ for i in "Algorithm.Interop"; do
 done
 
 echo "Copying CMake Algorithm Project:"
-for i in "Hash"; do
+for i in "Hash" "Math"; do
     echo "    $i"
     echo "        cp $cmake/$i/$i.dll $coreFiles"
     cp $cmake/$i/$i.dll $coreFiles
