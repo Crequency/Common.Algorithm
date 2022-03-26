@@ -1,4 +1,8 @@
-#include "stdc++.h"
+//#include "stdc++.h"
+//#include <stdio.h>
+//#include <stdlib.h>
+#include <iostream>
+#include <algorithm>
 
 #define EXTERN_API __declspec(dllexport)
 
