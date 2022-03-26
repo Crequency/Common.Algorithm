@@ -23,38 +23,38 @@ namespace calg{
         if (str.length() <= hash_length){                                        // no enough            ->  如果足位
             int index = hash_length - 1;
             for (int i = st_ca_int(str.length()) - 1;                            // copy value           ->  右对齐赋值
-                 i >= 0; --i, --index){
+                 i >= 0; -- i, -- index){
                 rst[index] = str[i];
             }
             uchar fill = 0;
-            for (int i = 0; i < index; ++i, fill = fill == 255 ? 0 : fill + 1){  // fill blank           ->  填补空白
+            for (int i = 0; i < index; ++ i, fill = fill == 255 ? 0 : fill + 1){  // fill blank           ->  填补空白
                 rst[i] = fill;
             }
         } else{
             long long block = str.length() / hash_block_length;                 // calc block size      ->  计算区块数量
             long long remain = str.length() - block * hash_block_length;        // remain length        ->  计算多余长度
             uchar *blocks[hash_block_length + 1]{};                             // blocks[128][1...n]   ->  二维数组
-            for (int i = 1; i <= hash_block_length; ++i)
+            for (int i = 1; i <= hash_block_length; ++ i)
                 blocks[i] = new uchar[block + 1];                               // init                 ->  每个区块分配空间
-            for (int i = 1, cur = 0; i <= hash_block_length; ++i)
-                for (int j = 1; j <= block; ++j, ++cur)
+            for (int i = 1, cur = 0; i <= hash_block_length; ++ i)
+                for (int j = 1; j <= block; ++ j, ++ cur)
                     blocks[i][j] = rst[cur];                                    // alloc                ->  按区块分配
             //TODO: 添加CUDA选择器, 可选是否使用CUDA操作
-            for (int i = 1; i <= block; ++i){
+            for (int i = 1; i <= block; ++ i){
                 ull eq_a = 1, eq_b = 1, eq_c = 1, eq_d = 1;
-                for (int k = 1; k <= 32; ++k)
+                for (int k = 1; k <= 32; ++ k)
                     eq_a *= (st_ca<int>(blocks[k][i]) << 1);
-                for (int k = 32 + 1; k <= 64; ++k)
+                for (int k = 32 + 1; k <= 64; ++ k)
                     eq_b *= (st_ca<int>(blocks[k][i]) << 1);
-                for (int k = 64 + 1; k <= 96; ++k)
+                for (int k = 64 + 1; k <= 96; ++ k)
                     eq_c *= (st_ca<int>(blocks[k][i]) << 1);
-                for (int k = 96 + 1; k <= 128; ++k)
+                for (int k = 96 + 1; k <= 128; ++ k)
                     eq_d *= (st_ca<int>(blocks[k][i]) << 1);
                 eq_a %= 255, eq_b %= 255, eq_c %= 255, eq_d %= 255;
                 ull *eq_arr[4] = {&eq_a, &eq_b, &eq_c, &eq_d};
                 for (int i = hash_length, index = 0;
                      i < st_ca_int(str.length());
-                     ++i, index = (index == 3 ? 0 : index + 1)){
+                     ++ i, index = (index == 3 ? 0 : index + 1)){
                     (*eq_arr[index]) += str[i];
                     (*eq_arr[index]) <<= 1;
                 }
@@ -63,13 +63,13 @@ namespace calg{
                 ans %= 256; ans *= ((eq_c * st_ca_int(std::pow(32, 4))) % 256);
                 ans %= 256; rst[i] = st_ca<char>(ans);
             }
-            for (int i = 1; i <= block; ++i)                                     // clear memory         ->  释放内存
+            for (int i = 1; i <= block; ++ i)                                     // clear memory         ->  释放内存
                 delete(blocks[i]);
         }
 
         /* ============================================ 以下是真哈希部分 ============================================ */
 
-        for (int i = 2; i <= hash_length - 2; ++i){
+        for (int i = 2; i <= hash_length - 2; ++ i){
             uchar a = rst[i - 1], b = rst[i], c = rst[i + 1], tmp;
             tmp = a, a = c, c = tmp;
             b = std::max(std::max(a * c, a * b), b * c) % 255;
@@ -105,7 +105,7 @@ namespace calg{
         //  解决小于 2048 时前导 '0' 重复导致一摸一样哈希的问题
         for (int i = 0, j = hash_length - 1, launched = 1;
              i != j && i < j && i != j - 1;
-             ++i, ++launched, j -= ((~rst[i + 1] ^ rst[i]) % 3 == 0 ? 1 : 2)){
+             ++ i, ++ launched, j -= ((~rst[i + 1] ^ rst[i]) % 3 == 0 ? 1 : 2)){
             rst[i] += rst[j] * rst[j - 1];
             rst[i] >>= (rst[i + 1] % 4);
             rst[i + 1] = rst[i] & (rst[j - 1] + rst[j]);
@@ -123,7 +123,7 @@ namespace calg{
         // 四指针混淆器
         for (int i = 1023, j = 1024, x = 0, y = 2048 - 1;
              i != 0 && j != 2048 - 1 && x != 1023 && y != 1024 && i < j && x < y;
-             --i, ++j, ++x, --y){
+             -- i, ++ j, ++ x, -- y){
 
             /*if(i >= 2){
                 rst[i - 1] = rst[i] | st_ca_int(std::sin(rst[j]));
@@ -147,9 +147,35 @@ namespace calg{
     /// <param name="rst">哈希压缩值地址</param>
     /// <returns>无返回值</returns>
     EXTERN_API void hash_compress_str(uchar *src, uchar *rst){
-
+        uchar *f = new uchar[hash_length]; size_t len = sizeof(uchar) * 1024;
+        memset(f, src[1024 - 1], len); memset(f + 1024, src[2048 - 1], len);
+        ull block_a = src[1024 - 1], block_b = src[2048 - 1], α = block_a - block_b;
+        for (int i = 1; i < 1024; ++ i){
+            f[i] *= f[i - 1]; f[i + 1] -= f[i];
+            block_a *= (f[i] ^ f[i + 1]); block_b += block_a;
+        }
+        for (int i = 1024; i < 2048 - 1; ++ i){
+            f[i] *= f[i - 1]; f[i - 1] += f[i];
+            block_b *= (f[i] ^ f[i - 1]); block_a -= block_b;
+        }
+        α *= block_a & block_b; uchar β = α % 255, γ = (α | β) % 255;
+        memset(rst, ((β * γ) | (γ + β)) % 512, sizeof(uchar) * 64);
+        for (int i = 0; i < 64; ++ i){
+            ull tmp_sum = src[i];
+            for (int j = i * 32; j < (i + 1) * 32; ++ j){
+                tmp_sum *= src[j];
+                rst[i] += tmp_sum ^ src[j];
+            }
+            rst[i] %= 512;
+        }
     }
 
+    /// <summary>
+    /// 文件哈希运算器
+    /// </summary>
+    /// <param name="fileName">文件名</param>
+    /// <param name="type">哈希类型</param>
+    /// <returns>是否成功</returns>
     EXTERN_API int hash_file(uchar *fileName, int type){
         //TODO: 文件哈希
 
