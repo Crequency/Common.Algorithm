@@ -3,6 +3,9 @@ using System;
 using Algorithm.Interop;
 using System.Collections.Generic;
 using System.Threading;
+using System.IO;
+using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace Algorithm.UnitTest
 {
@@ -111,25 +114,53 @@ namespace Algorithm.UnitTest
         [TestMethod]
         public void BenchMark_多线程测试()
         {
+            bool sync = false;
+            object locker = new();
             List<Thread> threads = new();
-            for(int i = (int)1e8; i < (int)1e8 + 1000; ++i)
+            Stopwatch reg = new();
+            TimeSpan sum = new(0);
+            int runned = 0, times = 10000;
+            if(sync) reg.Start();
+            for (int i = (int)1e8; i < (int)1e8 + times; ++i)
             {
                 int id = i;
                 threads.Add(new Thread(() =>
                 {
                     string testData = id.ToString();
+                    Stopwatch st = new();
+                    if (sync) st.Start();
                     string hashCom = Hash.FromString2Hex(testData);
-                    string hashSrc = Hash.FromString2Hex_WithoutCompress(testData, true);
-                    Console.WriteLine(testData);
-                    Console.WriteLine($"\t{hashSrc}");
-                    Console.WriteLine($"\t{hashCom}");
-                    Console.WriteLine();
+                    if (sync) st.Stop();
+                    string rt = sync ? $"\n\t执行时间: { st.Elapsed}" : "";
+                    string output = $"{testData}{rt}\n\t{hashCom}\n";
+                    if (sync) lock (locker)
+                    {
+                        sum += st.Elapsed;
+                    }
+                    Console.WriteLine(output);
+                    if (sync) Interlocked.Increment(ref runned);
                 }));
             }
+            if(sync) reg.Stop();
+            if (sync) Console.WriteLine($"注册用时: {reg.Elapsed}");
             foreach (Thread thread in threads)
             {
                 thread.Start();
             }
+            if (sync) while (runned != times) ;
+            if (sync) Console.WriteLine($"总用时: {sum}\n平均用时: {sum.TotalSeconds * 1.0 / 1000}s");
+        }
+
+        [TestMethod]
+        public void CPU多核并行执行测试()
+        {
+            const int times = 10000;
+            Stopwatch sw = new();
+            sw.Start();
+            Parallel.For((int)1e8, (int)1e8 + times, (i, state) =>
+            {
+
+            });
         }
     }
 }
