@@ -7,15 +7,12 @@ using System.Threading;
 namespace Algorithm.UnitTest
 {
     [TestClass]
-    public class HashTest
+    public class 哈希测试
     {
-        /// <summary>
-        /// 哈希可行性测试
-        /// </summary>
         [TestMethod]
-        public void FeasibilityTest()
+        public void 哈希可行性测试()
         {
-            string[] testData = new string[12]
+            string[] testData = new string[15]
             {
                 "SHVIOSJDifjDKljkJ$*F$W*938r5834r89we9fIOSFJOIS",   // 基础 ASCII 测试
                 "SHVIOSJDifjDKljkJ$*F$W*939r5834r89we9fIOSFJOIS",   // 微变更测试 938 -> 939
@@ -23,6 +20,9 @@ namespace Algorithm.UnitTest
                 "的是抗拒那就客服的撒滤镜打算离开房间啊w8e9832",           // 中文测试
                 "的是抗拒那就客服的撒滤镜打算离开房间啊w8e9132",           // 中文微变更测试 9832 -> 9132
                 "的dsa是fsd抗f拒s阿f斯是25是34会3卡死了的肌肤",           // 中文大变更测试
+                "426435314513461434532561234123614325415324",       // 纯数字测试
+                "426235314513461434532561234123614325415324",       // 纯数字小变更 4264 -> 4262
+                "426435434658956844336135342782895245234324",       // 纯数字大变更
                 "^$#%#$@T#@$@#$%#@^#$#@^#@%$&$#*$!*()$*@)($*)(#@",  // 纯符号测试
                 "^$#%#$@T#@$@#$%#@^#$#@!#@%$&$#*$!*()$*@)($*)(#@",  // 纯符号微变更测试 ^ -> !
                 "^$#%#*$(**(&#@(*$#*%(@$*(#@()#@09(()$*!)#(@*(#@",  // 纯符号大变更测试
@@ -33,17 +33,14 @@ namespace Algorithm.UnitTest
             for (int i = 0; i < testData.Length; ++i)
             {
                 Console.WriteLine(testData[i]);
-                Console.WriteLine(Hash.FromString_ToHex_WithoutCompress(testData[i]));
+                Console.WriteLine(Hash.FromString2Hex_WithoutCompress(testData[i]));
             }
         }
 
-        /// <summary>
-        /// 哈希算法64位压缩器测试
-        /// </summary>
         [TestMethod]
-        public void FeasibilityTest_WithCompress()
+        public void 哈希压缩器可行性测试()
         {
-            string[] testData = new string[12]
+            string[] testData = new string[15]
             {
                 "SHVIOSJDifjDKljkJ$*F$W*938r5834r89we9fIOSFJOIS",   // 基础 ASCII 测试
                 "SHVIOSJDifjDKljkJ$*F$W*939r5834r89we9fIOSFJOIS",   // 微变更测试 938 -> 939
@@ -51,6 +48,9 @@ namespace Algorithm.UnitTest
                 "的是抗拒那就客服的撒滤镜打算离开房间啊w8e9832",           // 中文测试
                 "的是抗拒那就客服的撒滤镜打算离开房间啊w8e9132",           // 中文微变更测试 9832 -> 9132
                 "的dsa是fsd抗f拒s阿f斯是25是34会3卡死了的肌肤",           // 中文大变更测试
+                "426435314513461434532561234123614325415324",       // 纯数字测试
+                "426235314513461434532561234123614325415324",       // 纯数字小变更 4264 -> 4262
+                "426435434658956844336135342782895245234324",       // 纯数字大变更
                 "^$#%#$@T#@$@#$%#@^#$#@^#@%$&$#*$!*()$*@)($*)(#@",  // 纯符号测试
                 "^$#%#$@T#@$@#$%#@^#$#@!#@%$&$#*$!*()$*@)($*)(#@",  // 纯符号微变更测试 ^ -> !
                 "^$#%#*$(**(&#@(*$#*%(@$*(#@()#@09(()$*!)#(@*(#@",  // 纯符号大变更测试
@@ -61,16 +61,13 @@ namespace Algorithm.UnitTest
             for (int i = 0; i < testData.Length; ++i)
             {
                 Console.WriteLine(testData[i]);
-                Console.WriteLine(Hash.FromString_ToHex_WithoutCompress(testData[i]));
-                Console.WriteLine(Hash.FromString_ToHex(testData[i], false));
+                Console.WriteLine(Hash.FromString2Hex_WithoutCompress(testData[i]));
+                Console.WriteLine(Hash.FromString2Hex(testData[i]));
             }
         }
 
-        /// <summary>
-        /// 短长度字符串Hash测试
-        /// </summary>
         [TestMethod]
-        public void BenchMark_1()
+        public void BenchMark_短长度字符串Hash测试()
         {
             List<string> testdata = new();
             Random random = new();
@@ -86,15 +83,12 @@ namespace Algorithm.UnitTest
             foreach (string item in testdata)
             {
                 Console.WriteLine(item);
-                Console.WriteLine(Hash.FromString_ToHex_WithoutCompress(item));
+                Console.WriteLine(Hash.FromString2Hex_WithoutCompress(item));
             }
         }
 
-        /// <summary>
-        /// 短长度字符串原生Hash测试
-        /// </summary>
         [TestMethod]
-        public void BenchMark_1_Native()
+        public void BenchMark_短长度字符串原生Hash测试()
         {
             List<string> testdata = new();
             Random random = new();
@@ -114,18 +108,22 @@ namespace Algorithm.UnitTest
             }
         }
 
-        /// <summary>
-        /// 多线程测试
-        /// </summary>
         [TestMethod]
-        public void BenchMark_MultiThreads()
+        public void BenchMark_多线程测试()
         {
             List<Thread> threads = new();
-            for(int i = 0; i < 100; ++i)
+            for(int i = (int)1e8; i < (int)1e8 + 1000; ++i)
             {
+                int id = i;
                 threads.Add(new Thread(() =>
                 {
-
+                    string testData = id.ToString();
+                    string hashCom = Hash.FromString2Hex(testData);
+                    string hashSrc = Hash.FromString2Hex_WithoutCompress(testData, true);
+                    Console.WriteLine(testData);
+                    Console.WriteLine($"\t{hashSrc}");
+                    Console.WriteLine($"\t{hashCom}");
+                    Console.WriteLine();
                 }));
             }
             foreach (Thread thread in threads)
