@@ -16,7 +16,7 @@ namespace calg{
             int index = hash_length - 1;
             for (int i = str.length() - 1;
                  i >= 0; -- i, -- index){
-                rst[index] = str[i];
+                rst[index] = src[i];
             }
             uchar fill = 0;
             for (int i = 0; i < index; ++ i, fill = fill == 255 ? 0 : fill + 1){
@@ -47,7 +47,7 @@ namespace calg{
                 for (int i = hash_length, index = 0;
                      i < (int)str.length();
                      ++ i, index = (index == 3 ? 0 : index + 1)){
-                    (*eq_arr[index]) += str[i];
+                    (*eq_arr[index]) += src[i];
                     (*eq_arr[index]) <<= 1;
                 }
                 ull ans = ((eq_a * 32) % 256) * ((eq_b * 32 * 32) % 256);
