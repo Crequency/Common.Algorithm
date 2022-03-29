@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using Algorithm.Interop.Exceptions;
 
 namespace Algorithm.Interop
 {
@@ -115,6 +116,23 @@ namespace Algorithm.Interop
                     return ans4;
                 default: return Array.Empty<byte>();
             }
+        }
+
+        /// <summary>
+        /// 推断哈希采用的压缩级别, 并检查是否合法
+        /// </summary>
+        /// <param name="compressed">哈希压缩值</param>
+        /// <param name="src">原文</param>
+        /// <param name="lnk">是否拥有连字符</param>
+        /// <returns>压缩级别</returns>
+        /// <exception cref="HashException">不合法判断异常, 级别未找到异常</exception>
+        public static CompressLevel HashCompressLevelParse(string compressed,
+            string src, bool lnk = true)
+        {
+            foreach (CompressLevel item in Enum.GetValues(typeof(CompressLevel)))
+                if (FromString2Hex(src, !lnk, item).Equals(compressed))
+                    return item;
+            throw new HashException(HashException.ErrorType.UndefinedCompressLevel);
         }
 
         #endregion
