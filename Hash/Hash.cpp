@@ -11,10 +11,10 @@ namespace calg{
 
     EXTERN_API void hash_str(uchar *src, uchar *rst){
         memset(rst, '0', sizeof(uchar) * 2048);
-        std::string str(re_ca_charc(src));
+        std::string str((char *)src);
         if (str.length() <= hash_length){
             int index = hash_length - 1;
-            for (int i = st_ca_int(str.length()) - 1;
+            for (int i = str.length() - 1;
                  i >= 0; -- i, -- index){
                 rst[index] = str[i];
             }
@@ -35,25 +35,25 @@ namespace calg{
             for (int i = 1; i <= block; ++ i){
                 ull eq_a = 1, eq_b = 1, eq_c = 1, eq_d = 1;
                 for (int k = 1; k <= 32; ++ k)
-                    eq_a *= (st_ca<int>(blocks[k][i]) << 1);
+                    eq_a *= ((int)blocks[k][i] << 1);
                 for (int k = 32 + 1; k <= 64; ++ k)
-                    eq_b *= (st_ca<int>(blocks[k][i]) << 1);
+                    eq_b *= ((int)blocks[k][i] << 1);
                 for (int k = 64 + 1; k <= 96; ++ k)
-                    eq_c *= (st_ca<int>(blocks[k][i]) << 1);
+                    eq_c *= ((int)blocks[k][i] << 1);
                 for (int k = 96 + 1; k <= 128; ++ k)
-                    eq_d *= (st_ca<int>(blocks[k][i]) << 1);
+                    eq_d *= ((int)blocks[k][i] << 1);
                 eq_a %= 255, eq_b %= 255, eq_c %= 255, eq_d %= 255;
                 ull *eq_arr[4] = {&eq_a, &eq_b, &eq_c, &eq_d};
                 for (int i = hash_length, index = 0;
-                     i < st_ca_int(str.length());
+                     i < (int)str.length();
                      ++ i, index = (index == 3 ? 0 : index + 1)){
                     (*eq_arr[index]) += str[i];
                     (*eq_arr[index]) <<= 1;
                 }
                 ull ans = ((eq_a * 32) % 256) * ((eq_b * 32 * 32) % 256);
-                ans %= 256; ans *= ((eq_c * st_ca_int(std::pow(32, 3))) % 256);
-                ans %= 256; ans *= ((eq_c * st_ca_int(std::pow(32, 4))) % 256);
-                ans %= 256; rst[i] = st_ca<char>(ans);
+                ans %= 256; ans *= ((eq_c * (int)std::pow(32, 3)) % 256);
+                ans %= 256; ans *= ((eq_c * (int)std::pow(32, 4)) % 256);
+                ans %= 256; rst[i] = (char)ans;
             }
             for (int i = 1; i <= block; ++ i)
                 delete(blocks[i]);
@@ -103,7 +103,7 @@ namespace calg{
             rst[0] >>= 1;
             rst[j] -= rst[i] ^ rst[i + 1];
             rst[j - 1] -= (rst[j - 1] + ((rst[(j + i) >> 1] ^
-                ~rst[((rst[i] * rst[j] - rst[i] - rst[j]) % 2048) >> 1]) >> 1));
+                                          ~rst[((rst[i] * rst[j] - rst[i] - rst[j]) % 2048) >> 1]) >> 1));
             rst[0] = rst[i] + rst[j];
             rst[hash_length - 1] = rst[i] - rst[j];
             if (launched >= 2048) break;
