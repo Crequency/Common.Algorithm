@@ -146,7 +146,7 @@ namespace calg{
     /// <param name="src">源哈希值地址 (源哈希值长必须为2048位)</param>
     /// <param name="rst">哈希压缩值地址</param>
     /// <returns>无返回值</returns>
-    EXTERN_API void hash_compress_str(uchar *src, uchar *rst){
+    EXTERN_API void hash_compress_64_str(uchar *src, uchar *rst){
         uchar *f = new uchar[hash_length]; size_t len = sizeof(uchar) * 1024;
         memset(f, src[1024 - 1], len); memset(f + 1024, src[2048 - 1], len);
         ull block_a = src[1024 - 1], block_b = src[2048 - 1], α = block_a - block_b;
