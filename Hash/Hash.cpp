@@ -103,7 +103,7 @@ namespace calg{
             rst[0] >>= 1;
             rst[j] -= rst[i] ^ rst[i + 1];
             rst[j - 1] -= (rst[j - 1] + ((rst[(j + i) >> 1] ^
-                                          ~rst[((rst[i] * rst[j] - rst[i] - rst[j]) % 2048) >> 1]) >> 1));
+                ~rst[((rst[i] * rst[j] - rst[i] - rst[j]) % 2048) >> 1]) >> 1));
             rst[0] = rst[i] + rst[j];
             rst[hash_length - 1] = rst[i] - rst[j];
             if (launched >= 2048) break;
