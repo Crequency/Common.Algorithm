@@ -144,7 +144,8 @@ namespace Algorithm.Interop
         /// </summary>
         /// <param name="str">字符串</param>
         /// <returns>哈希后的Byte数组</returns>
-        public static byte[] FromString(string str, CompressLevel clv = CompressLevel.x64)
+        public static byte[] FromString(string str,
+            CompressLevel clv = CompressLevel.x64)
         {
             byte[] array = Encoding.UTF8.GetBytes(str);     //  源字符串转 byte[]
             byte[] mid = new byte[2048];                    //  存储哈希值
@@ -167,7 +168,7 @@ namespace Algorithm.Interop
             hash_str(array, mid);                           //  哈希运算
             byte[] rst = Compress(ref mid, clv);            //  哈希压缩运算
             string ans = BitConverter.ToString(rst);        //  哈希压缩运算转十六进制字符串
-            return rmLink ? ans.Replace('-', '\0') : ans;   //  返回字符串, 据参数删除连字符
+            return rmLink ? ans.Replace("-", "") : ans;     //  返回字符串, 据参数删除连字符
         }
 
         /// <summary>
@@ -189,13 +190,14 @@ namespace Algorithm.Interop
         /// <param name="str">字符串</param>
         /// <param name="rmLink">是否移除连字符</param>
         /// <returns>十六进制不压缩哈希字符串</returns>
-        public static string FromString2Hex_WithoutCompress(string str, bool rmLink = false)
+        public static string FromString2Hex_WithoutCompress(string str,
+            bool rmLink = false)
         {
             byte[] array = Encoding.UTF8.GetBytes(str);     //  源字符串转 byte[]
             byte[] mid = new byte[2048];                    //  存储哈希值
             hash_str(array, mid);                           //  哈希运算
             string ans = BitConverter.ToString(mid);        //  哈希压缩运算转十六进制字符串
-            return rmLink ? ans.Replace('-', '\0') : ans;   //  返回字符串, 据参数删除连字符
+            return rmLink ? ans.Replace("-", "") : ans;     //  返回字符串, 据参数删除连字符
         }
 
         #endregion
