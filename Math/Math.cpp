@@ -1,8 +1,28 @@
 #include "Math.h"
 
 namespace calg{
-    EXTERN_API inline ll max(ll a, ll b){ return a > b ? a : b; }
-    EXTERN_API inline ll min(ll a, ll b){ return a > b ? b : a; }
+    EXTERN_API inline ll max(ll x, ...){
+        va_list xs;
+        va_start(xs, x);
+        ll tmp = va_arg(xs, ll);
+        for (int i = 1; i < x; ++ i){
+            ll cur = va_arg(xs, ll);
+            tmp = tmp > cur ? tmp : cur;
+        }
+        va_end(xs);
+        return tmp;
+    }
+    EXTERN_API inline ll min(ll x, ...){
+        va_list xs;
+        va_start(xs, x);
+        ll tmp = va_arg(xs, ll);
+        for (int i = 1; i < x; ++ i){
+            ll cur = va_arg(xs, ll);
+            tmp = tmp < cur ? tmp : cur;
+        }
+        va_end(xs);
+        return tmp;
+    }
     EXTERN_API inline ll abs(ll x){ return x < 0 ? -x : x; }
     EXTERN_API inline ll pow(ll x, ll t){
         ll ans = 1; while (t--) ans *= x; return ans;
