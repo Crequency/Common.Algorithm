@@ -26,7 +26,7 @@ namespace Algorithm.Interop
         /// <param name="src">元数据</param>
         /// <returns>哈希后的数据</returns>
         [DllImport($"{dll_path}Hash.dll", EntryPoint = "hash_str")]
-        private static extern void hash_str(byte[] src, byte[] output);
+        private static extern void hash_str(byte[] src, byte[] output, int length);
 
         /// <summary>
         /// 调用扩展库进行 Hash 压缩
@@ -149,7 +149,7 @@ namespace Algorithm.Interop
         {
             byte[] array = Encoding.UTF8.GetBytes(str);     //  源字符串转 byte[]
             byte[] mid = new byte[2048];                    //  存储哈希值
-            hash_str(array, mid);                           //  哈希运算
+            hash_str(array, mid, array.Length);             //  哈希运算
             byte[] rst = Compress(ref mid, clv);            //  哈希压缩运算
             return rst;                                     //  返回哈希压缩值
         }
@@ -165,7 +165,7 @@ namespace Algorithm.Interop
         {
             byte[] array = Encoding.UTF8.GetBytes(str);     //  源字符串转 byte[]
             byte[] mid = new byte[2048];                    //  存储哈希值
-            hash_str(array, mid);                           //  哈希运算
+            hash_str(array, mid, array.Length);             //  哈希运算
             byte[] rst = Compress(ref mid, clv);            //  哈希压缩运算
             string ans = BitConverter.ToString(rst);        //  哈希压缩运算转十六进制字符串
             return rmLink ? ans.Replace("-", "") : ans;     //  返回字符串, 据参数删除连字符
@@ -180,7 +180,7 @@ namespace Algorithm.Interop
         {
             byte[] array = Encoding.UTF8.GetBytes(str);     //  源字符串转 byte[]
             byte[] mid = new byte[2048];                    //  存储哈希值
-            hash_str(array, mid);                           //  哈希运算
+            hash_str(array, mid, array.Length);             //  哈希运算
             return mid;                                     //  返回哈希压缩值
         }
 
@@ -195,7 +195,7 @@ namespace Algorithm.Interop
         {
             byte[] array = Encoding.UTF8.GetBytes(str);     //  源字符串转 byte[]
             byte[] mid = new byte[2048];                    //  存储哈希值
-            hash_str(array, mid);                           //  哈希运算
+            hash_str(array, mid, array.Length);             //  哈希运算
             string ans = BitConverter.ToString(mid);        //  哈希压缩运算转十六进制字符串
             return rmLink ? ans.Replace("-", "") : ans;     //  返回字符串, 据参数删除连字符
         }
