@@ -9,3 +9,5 @@ project ("Algorithm")
 add_subdirectory ("Base")
 add_subdirectory ("Hash")
 add_subdirectory ("Math")
+
+add_subdirectory ("Test")
