@@ -5,15 +5,15 @@
 #include <algorithm>
 #include <cstdarg>
 
+#define EXTERN_INC extern "C"
+#define EXTERN_CPP extern "C++"
 #define EXTERN_API __declspec(dllexport)
+#define EXTERN_ALL extern "C" __declspec(dllexport)
 
-#define uchar unsigned char
-#define ull unsigned long long
-#define ll long long
-#define uint unsigned int
-
-#define st_ca static_cast
-#define st_ca_int static_cast<int>
-#define re_ca reinterpret_cast
-#define re_ca_charc reinterpret_cast<char *>
+typedef unsigned char uchar;
+typedef __int64 i64;
+typedef unsigned __int64 ull;
+typedef __int32 i32;
+typedef unsigned __int32 uint;
+typedef long double ld;
 
