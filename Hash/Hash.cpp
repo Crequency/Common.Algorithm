@@ -1,70 +1,71 @@
 ﻿#include "Hash.h"
 
 
-namespace calg{
+namespace calg {
 
 
 
-    EXTERN_API int extern_test_getnum(){ return 1; }
-    inline bool cmp_a(uchar a, uchar b){ return a < b; }
-    inline bool cmp_b(uchar a, uchar b){ return a > b; }
-    inline i32 mix_3(i32 a, i32 b, i32 c){
+    EXTERN_API int extern_test_getnum() { return 1; }
+    inline bool cmp_a(uchar a, uchar b) { return a < b; }
+    inline bool cmp_b(uchar a, uchar b) { return a > b; }
+    inline i32 mix_3(i32 a, i32 b, i32 c) {
         i64 t_max, t_min;
         calg::maxin(&t_max, &t_min, 3, a, b, c);
         i32 max = (i32)t_max, min = (i32)t_min;
-        if (a == max) return ((i64)(a * b * c) - min) % INT32_MAX;
-        else if (c - a > b) return (a * c + (b + c) * a) % INT32_MAX;
-        else if (c - a < b) return ((i64)(b * c - b - c) + calg::pow(a, 2) % INT32_MAX);
+        if(a == max) return ((i64)(a * b * c) - min) % INT32_MAX;
+        else if(c - a > b) return (a * c + (b + c) * a) % INT32_MAX;
+        else if(c - a < b) return ((i64)(b * c - b - c) + calg::pow(a, 2) % INT32_MAX);
         else return ((i64)max * min + (max ^ min) * mid(a, b, c)) % INT32_MAX;
     }
-    inline i32 mix_5(i32 a, i32 b, i32 c, i32 d, i32 e){
+    inline i32 mix_5(i32 a, i32 b, i32 c, i32 d, i32 e) {
         i32 A = mix_3(a, b, c), B = mix_3(c, d, e), C = mix_3(b, c, d),
             D = mix_3(a, c, e), E = mix_3(a, b, d), F = mix_3(e, d, b),
             G = mix_3(a, d, e), H = mix_3(e, b, a), I = mix_3(b, c, e),
             J = mix_3(d, c, a), K = mix_3(a, b, e), L = mix_3(e, d, a);
-        if (A ^ B & 1){
+        if(A ^ B & 1) {
             i64 CDEF = (i64)C * D - E - F;
             return (i32)calg::abs(CDEF % INT32_MAX - (i64)K);
-        } else{
+        } else {
             i64 t_a = calg::abs((i64)(G + H) ^ (i64)(I * J));
             return t_a % INT32_MAX - (i64)L;
         }
     }
-    inline void exp_1(i32 x, i32 *a, i32 *b, i32 *c){
+    inline void exp_1(i32 x, i32 *a, i32 *b, i32 *c) {
         i32 ea = (x << 1) & 114514, eb = x ^ 1919, ec = (x >> 1) & 810;
         i32 ca = gobit(x, 10), cb = gobit(x >> 10, 10), cc = gobit(x >> 20, 10);
         *a = (ea ^ ca) >> 1, *b = (eb ^ cb) >> 1, *c = (ec ^ cc) >> 1;
     }
-    inline long double spring_func(long double x){
+    inline long double spring_func(long double x) {
         long double A = sinl(calg::pi * log2l(calg::abs(x * 2 + 1)));
         long double B = powl(2, x * 2) + powl(calg::e, x * 4);
         return cosl(A + B);
     }
-    EXTERN_API void hash_str(uchar *src, uchar *rst, int length){
+    EXTERN_API void hash_str(uchar *src, uchar *rst, int length) {
         i32 *mid = new i32[hash_length];                                //  中间运算结果
         i32 **ato = new i32 * [hash_length];                            //  Grava函数矩阵
-        for (int i = 0; i < hash_length; ++ i){
+        for(int i = 0; i < hash_length; ++i) {
             ato[i] = new i32[hash_length];
             memset(ato[i], 0, sizeof(i32) * hash_length);
         }
 
         /* 源字符串预填充 */
-        if (length == hash_length)                                      //  长度刚好, 直接填充
-            for (int i = 0; i < hash_length; ++ i)
+        if(length == hash_length)                                       //  长度刚好, 直接填充
+            for(int i = 0; i < hash_length; ++i)
                 mid[i] = (i32)src[i];
-        else if (length > hash_length){                                 //  源较长, n 元混合
-            for (int i = 0, pos = 0; i < length;
-                 ++ i, pos = pos == hash_length ? 0 : pos + 1){
+        else if(length > hash_length) {                                 //  源较长, n 元混合
+            for(int i = 0, pos = 0; i < length;
+                ++i, pos = pos == hash_length ? 0 : pos + 1) {
                 //TODO: 混合源串的填充
+
             }
-        } else{                                                         //  源较短, n 元扩展
+        } else {                                                        //  源较短, n 元扩展
             //TODO: 扩展源串的填充
 
         }
 
 
 
-        for (int i = 0; i < hash_length; ++ i){
+        for(int i = 0; i < hash_length; ++i) {
             delete[]ato[i];
             ato[i] = NULL;
         }
@@ -174,7 +175,7 @@ namespace calg{
     {
 
     }
-    EXTERN_API void hash_compress_64_str(uchar *src, uchar *rst){
+    EXTERN_API void hash_compress_64_str(uchar *src, uchar *rst) {
         /*uchar *f = new uchar[hash_length]; size_t len = sizeof(uchar) * 1024;
         memset(f, src[1024 - 1], len); memset(f + 1024, src[2048 - 1], len);
         ull block_a = src[1024 - 1], block_b = src[2048 - 1], α = block_a - block_b;
@@ -213,7 +214,7 @@ namespace calg{
     {
 
     }
-    EXTERN_API int hash_file(uchar *fileName, int type){
+    EXTERN_API int hash_file(uchar *fileName, int type) {
         //TODO: 文件哈希
 
         return 1;
