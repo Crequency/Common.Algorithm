@@ -4,6 +4,9 @@
 #include <iostream>
 #include <algorithm>
 #include <cstdarg>
+#include <stack>
+#include <list>
+#include <queue>
 
 #define EXTERN_INC extern "C"
 #define EXTERN_CPP extern "C++"
