@@ -6,8 +6,8 @@ namespace calg{
     EXTERN_ALL const i32 hash_block_length = 128;
 
     EXTERN_ALL int extern_test_getnum();
-    inline bool cmp_a(uchar a, uchar b);
-    inline bool cmp_b(uchar a, uchar b);
+    inline bool cmp_a(i32 a, i32 b);
+    inline bool cmp_b(i32 a, i32 b);
     inline i32 mix_3(i32 a, i32 b, i32 c);
     inline i32 mix_5(i32 a, i32 b, i32 c, i32 d, i32 e);
     inline void exp_1(i32 x, i32 *a, i32 *b, i32 *c);
