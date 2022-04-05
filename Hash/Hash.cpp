@@ -61,7 +61,7 @@ namespace calg{
             mid[2] = mix_5(mid[0], mid[1], src[2], src[3], src[4]);
             for (i32 i = 3, pos = 3; i < length;
                  ++i, pos = pos == hash_length ? 3 : pos + 1){
-                mid[pos] = mix_3(src[i], mid[pos - 1], mid[pos - 2]);
+                mid[pos % hash_length] = mix_3(src[i], mid[pos - 1], mid[pos - 2]);
             }
         } else{                                                         //  源较短, n 元扩展
             for (i32 i = 0, t = 0; i < hash_length;                     //  初始化赋值
@@ -170,113 +170,6 @@ namespace calg{
         delete[] mid; mid = NULL;                                       //  回收中间运算结果数组
 
         return;
-
-
-        //#include <Windows.h>
-
-        //std::ostringstream oss;
-        //oss << mid[j];
-        //MessageBox(NULL, oss.str().c_str(), "Info", MB_YESNO | MB_DEFBUTTON2 | MB_ICONQUESTION);
-
-
-        //memset(mid, '0', sizeof(uchar) * 2048);
-        //std::string str((char *)src);
-        //if (str.length() <= hash_length){
-        //    int index = hash_length - 1;
-        //    for (int i = str.length() - 1;
-        //         i >= 0; -- i, -- index){
-        //        mid[index] = src[i];
-        //    }
-        //    uchar fill = 0;
-        //    for (int i = 0; i < index; ++ i, fill = fill == 255 ? 0 : fill + 1){
-        //        mid[i] = fill;
-        //    }
-        //} else{
-        //    long long block = str.length() / hash_block_length;
-        //    long long remain = str.length() - block * hash_block_length;
-        //    uchar *blocks[hash_block_length + 1]{};
-        //    for (int i = 1; i <= hash_block_length; ++ i)
-        //        blocks[i] = new uchar[block + 1];
-        //    for (int i = 1, cur = 0; i <= hash_block_length; ++ i)
-        //        for (int j = 1; j <= block; ++ j, ++ cur)
-        //            blocks[i][j] = mid[cur];
-        //    //TODO: 添加CUDA选择器, 可选是否使用CUDA操作
-        //    for (int i = 1; i <= block; ++ i){
-        //        ull eq_a = 1, eq_b = 1, eq_c = 1, eq_d = 1;
-        //        for (int k = 1; k <= 32; ++ k)
-        //            eq_a *= ((int)blocks[k][i] << 1);
-        //        for (int k = 32 + 1; k <= 64; ++ k)
-        //            eq_b *= ((int)blocks[k][i] << 1);
-        //        for (int k = 64 + 1; k <= 96; ++ k)
-        //            eq_c *= ((int)blocks[k][i] << 1);
-        //        for (int k = 96 + 1; k <= 128; ++ k)
-        //            eq_d *= ((int)blocks[k][i] << 1);
-        //        eq_a %= 255, eq_b %= 255, eq_c %= 255, eq_d %= 255;
-        //        ull *eq_arr[4] = {&eq_a, &eq_b, &eq_c, &eq_d};
-        //        for (int i = hash_length, index = 0;
-        //             i < (int)str.length();
-        //             ++ i, index = (index == 3 ? 0 : index + 1)){
-        //            (*eq_arr[index]) += src[i];
-        //            (*eq_arr[index]) <<= 1;
-        //        }
-        //        ull ans = ((eq_a * 32) % 256) * ((eq_b * 32 * 32) % 256);
-        //        ans %= 256; ans *= ((eq_c * (int)std::pow(32, 3)) % 256);
-        //        ans %= 256; ans *= ((eq_c * (int)std::pow(32, 4)) % 256);
-        //        ans %= 256; mid[i] = (char)ans;
-        //    }
-        //    for (int i = 1; i <= block; ++ i)
-        //        delete(blocks[i]);
-        //}
-
-        /* ============================= 以下是真哈希部分 ============================= */
-
-        //for (int i = 2; i <= hash_length - 2; ++ i){
-        //    uchar a = mid[i - 1], b = mid[i], c = mid[i + 1], tmp;
-        //    tmp = a, a = c, c = tmp;
-        //    b = std::max(std::max(a * c, a * b), b * c) % 255;
-        //    a *= b, c *= b;
-        //    a = c - b, c = a - b;
-        //    mid[i - 1] = (uchar)std::pow(a * c - a - c, c % 5) % 255;
-        //    mid[i] = (uchar)std::pow(b - a - c, a % 5) % 255;
-        //    mid[i + 1] = (uchar)std::pow(c * b - c - b, b % 5) % 255;
-        //    std::sort(mid + i - 2, mid + i + 2, b % 2 == 0 ? cmp_a : cmp_b);
-        //    mid[i + 2] += mid[i - 1] >= mid[i - 2] ? mid[i + 1] <<= 1 : mid[i] >>= 1;
-        //    mid[i - 1] -= mid[i + 2] % 3 == 2 ? mid[i] + (mid[i + 2] >>= 1) :
-        //        (uchar)((mid[i - 2] + (int)std::pow(a + b, c)) % 255);
-        //    mid[i] *= mid[i + 2] - mid[i - 1];
-        //    mid[i - 2] += mid[i] + (mid[i - 1] <<= 1);
-        //    mid[i + 1] = mid[i + 2] ^ mid[i - 1] + mid[i] & mid[i - 2];
-
-        //    mid[i - 2] -= mid[i + 1] - mid[i] - mid[i - 1] - mid[i - 2];
-        //    mid[i - 1] -= mid[i] - mid[i - 1] - mid[i - 2];
-        //    mid[i] -= mid[i - 1] - mid[i - 2];
-        //    mid[i + 1] -= mid[i - 2];
-        //    mid[i + 2] <<= 1;
-        //    mid[i - 2] >>= 1;
-        //    mid[i - 1] += mid[i - 2];
-        //    mid[i] += mid[i - 1] - mid[i - 2];
-        //    mid[i + 1] += mid[i] - mid[i - 1] - mid[i - 2];
-        //    mid[i + 2] += mid[i + 1] - mid[i] - mid[i - 1] - mid[i - 2];
-        //}
-
-        ////  解决小于 2048 时前导 '0' 重复导致一摸一样哈希的问题
-        //for (int i = 0, j = hash_length - 1, launched = 1;
-        //     i != j && i < j && i != j - 1;
-        //     ++ i, ++ launched, j -= ((~mid[i + 1] ^ mid[i]) % 3 == 0 ? 1 : 2)){
-        //    mid[i] += mid[j] * mid[j - 1];
-        //    mid[i] >>= (mid[i + 1] % 4);
-        //    mid[i + 1] = mid[i] & (mid[j - 1] + mid[j]);
-        //    mid[i + 2] = mid[i + 1] | (mid[j - 1] & mid[i]);
-        //    mid[i] += mid[i] ^ mid[j];
-        //    mid[i] += (mid[0] &= mid[j]) ^ (mid[hash_length - 1] >>= 1);
-        //    mid[0] >>= 1;
-        //    mid[j] -= mid[i] ^ mid[i + 1];
-        //    mid[j - 1] -= (mid[j - 1] + ((mid[(j + i) >> 1] ^
-        //        ~mid[((mid[i] * mid[j] - mid[i] - mid[j]) % 2048) >> 1]) >> 1));
-        //    mid[0] = mid[i] + mid[j];
-        //    mid[hash_length - 1] = mid[i] - mid[j];
-        //    if (launched >= 2048) break;
-        //}
     }
     EXTERN_API void hash_compress_128_str(uchar *src, uchar *mid){
 
