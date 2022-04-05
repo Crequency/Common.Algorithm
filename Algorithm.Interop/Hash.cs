@@ -16,7 +16,7 @@ namespace Algorithm.Interop
         /// <summary>
         /// DLL 路径
         /// </summary>
-        private const string dll_path = "./Core/";
+        private const string dll_path = Environment.dll_path;
 
         #region 扩展库函数导入 [DLLImport Hash.dll]
 
