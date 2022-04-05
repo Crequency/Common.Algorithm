@@ -41,6 +41,37 @@ namespace Algorithm.UnitTest
         }
 
         [TestMethod]
+        public void 多级压缩测试()
+        {
+            string[] testData = new string[15]
+            {
+                "SHVIOSJDifjDKljkJ$*F$W*938r5834r89we9fIOSFJOIS",   // 基础 ASCII 测试
+                "SHVIOSJDifjDKljkJ$*F$W*939r5834r89we9fIOSFJOIS",   // 微变更测试 938 -> 939
+                "DHSJKfkl5262fads43234LKgjsd#$%$%#$%fjLKSdkfJLD",   // 大变更测试
+                "的是抗拒那就客服的撒滤镜打算离开房间啊w8e9832",           // 中文测试
+                "的是抗拒那就客服的撒滤镜打算离开房间啊w8e9132",           // 中文微变更测试 9832 -> 9132
+                "的dsa是fsd抗f拒s阿f斯是25是34会3卡死了的肌肤",           // 中文大变更测试
+                "426435314513461434532561234123614325415324",       // 纯数字测试
+                "426235314513461434532561234123614325415324",       // 纯数字小变更 4264 -> 4262
+                "426435434658956844336135342782895245234324",       // 纯数字大变更
+                "^$#%#$@T#@$@#$%#@^#$#@^#@%$&$#*$!*()$*@)($*)(#@",  // 纯符号测试
+                "^$#%#$@T#@$@#$%#@^#$#@!#@%$&$#*$!*()$*@)($*)(#@",  // 纯符号微变更测试 ^ -> !
+                "^$#%#*$(**(&#@(*$#*%(@$*(#@()#@09(()$*!)#(@*(#@",  // 纯符号大变更测试
+                "🐦🐡🐣🐱💣",    // Emoji(Unicode) 测试
+                "🐦🐡💯🐱💣",    // Emoji(Unicode) 小变更测试 🐣 -> 💯
+                "💬💰💮🕷🚩"     // Emoji(Unicode) 大变更测试
+            };
+            foreach (string item in testData)
+            {
+                Console.WriteLine(item);
+                foreach (Hash.CompressLevel clv in Enum.GetValues(typeof(Hash.CompressLevel)))
+                {
+                    Console.WriteLine($"\t{clv}\t{(clv == Hash.CompressLevel.x128 ? "" : "\t")}{Hash.FromString2Hex(item, true, clv)}");
+                }
+            }
+        }
+
+        [TestMethod]
         public void IS_1_压力测试()
         {
             const string a = "SHVIOSJDifjDKljkJ$*F$W*938r5834r89we9fIOSFJOIS";
