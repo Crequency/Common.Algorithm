@@ -8,6 +8,27 @@ namespace calg{
     EXTERN_API int extern_test_getnum(){ return 1; }
     inline bool cmp_a(i32 a, i32 b){ return a < b; }
     inline bool cmp_b(i32 a, i32 b){ return a > b; }
+    inline i32 mix_2(i32 a, i32 b){
+        i32 ea1, ea2, ea3, eb1, eb2, eb3;
+        exp_1(a, &ea1, &ea2, &ea3);
+        exp_1(b, &eb1, &eb2, &eb3);
+        i64 max, min, mid1, mid2;
+        calg::maxin(&max, &min, 6, ea1, ea2, ea3, eb1, eb2, eb3);
+        mid1 = calg::mid(ea2, ea3, eb1);
+        mid2 = calg::mid(ea3, eb1, eb2);
+        i32 m1 = (i32)max, m2 = (i32)min, m3 = (i32)mid1, m4 = (i32)mid2;
+        i32 **arr = new i32 * [10]{
+            &ea1, &ea2, &ea3, &eb1, &eb2, &eb3, &m1, &m2, &m3, &m4
+        };
+        std::sort(arr, arr + 10,
+                  [](i32 *a, i32 *b){
+                      return *a * *b % 2 == 0 ? *a > *b : *a < *b;
+                  }
+        );
+        return (*arr[calg::abs((i64)(a * b)) % 9] + *arr[calg::abs((i64)(a * b - a)) % 9]
+                + *arr[calg::abs((i64)(a * b - b)) % 9]
+                + *arr[calg::abs((i64)(a * b - a - b)) % 9] + 1 + a ^ b + a & b) / 4;
+    }
     inline i32 mix_3(i32 a, i32 b, i32 c){
         i64 t_max, t_min;
         calg::maxin(&t_max, &t_min, 3, a, b, c);
@@ -53,7 +74,7 @@ namespace calg{
 
         /* 源字符串预填充 */
         if (length == hash_length)                                      //  长度刚好, 直接填充
-            for (int i = 0; i < hash_length; ++i)
+            for (i32 i = 0; i < hash_length; ++i)
                 mid[i] = (i32)src[i];
         else if (length > hash_length){                                 //  源较长, n 元混合
             mid[0] = mix_5(src[0], src[1], src[2], src[3], src[4]);
@@ -122,7 +143,7 @@ namespace calg{
             delete[] α, σ;
         }
 
-        for (int i = 2; i <= hash_length - 3; ++ i){
+        for (i32 i = 2; i <= hash_length - 3; ++ i){
             i32 a = mid[i - 1], b = mid[i], c = mid[i + 1], tmp;
             tmp = a, a = c, c = tmp;
             b = calg::max(3, a * c, a * b, b * c) % 255;
@@ -171,42 +192,52 @@ namespace calg{
 
         return;
     }
-    EXTERN_API void hash_compress_128_str(uchar *src, uchar *mid){
+    EXTERN_API void hash_compress_128_str(uchar *src, uchar *rst){
+        i32 *mid = new i32[128];
+        i32 **at = new i32 * [16];
+        for (i32 i = 0; i < 16; ++ i)
+            at[i] = new i32[128];
 
-    }
-    EXTERN_API void hash_compress_64_str(uchar *src, uchar *mid){
-        /*uchar *f = new uchar[hash_length]; size_t len = sizeof(uchar) * 1024;
-        memset(f, src[1024 - 1], len); memset(f + 1024, src[2048 - 1], len);
-        ull block_a = src[1024 - 1], block_b = src[2048 - 1], α = block_a - block_b;
-        for (int i = 1; i < 1024; ++ i){
-            f[i] *= f[i - 1]; f[i + 1] -= f[i];
-            block_a *= (f[i] ^ f[i + 1]); block_b += block_a;
+        memset(mid, (i32)src[64], sizeof(i32) * 128);
+        for (i32 i = 0, x = 0, y = 0; i < 2048; ++ i,
+             x = y == 15 ? x + 1 : x,
+             y = y == 15 ? 0 : y + 1){
+            at[y][x] = (i32)src[i];
         }
-        for (int i = 1024; i < 2048 - 1; ++ i){
-            f[i] *= f[i - 1]; f[i - 1] += f[i];
-            block_b *= (f[i] ^ f[i - 1]); block_a -= block_b;
-        }
-        α *= block_a & block_b; uchar β = α % 255, γ = (α | β) % 255;
-        memset(mid, ((β * γ) | (γ + β)) % 512, sizeof(uchar) * 64);
-        for (int i = 0; i < 64; ++ i){
-            ull tmp_sum = src[i];
-            for (int j = i * 32; j < (i + 1) * 32; ++ j){
-                tmp_sum *= src[j];
-                mid[i] += tmp_sum ^ src[j];
+
+        for (i32 i = 0; i < 128; ++ i){
+            i64 tmp = 1;
+            for (i32 j = 0; j < 16; ++ j){
+                tmp *= (i64)(at[j][i] == 0 ? i * j : at[j][i] + i * j);
+                if (i != 0 && j != 0)
+                    tmp += (i64)at[j - 1][i - 1];
+                if (i != 0) at[j][i - 1] ^= tmp;
+                if (j != 0) at[j - 1][i] &= tmp;
             }
-            mid[i] %= 512;
-        }*/
+            rst[i] = (uchar)((i32)calg::abs(tmp) % 255);
+        }
+
+        for (i32 i = 0; i < 16; ++ i){
+            delete[]at[i]; at[i] = NULL;
+        }
+        delete[]at; at = NULL;
     }
-    EXTERN_API void hash_compress_32_str(uchar *src, uchar *mid){
+    EXTERN_API void hash_compress_64_str(uchar *src, uchar *rst){
+        uchar *mid = new uchar[128];
+        hash_compress_128_str(src, mid);
+        for (i32 i = 0; i < 64; ++ i)
+            rst[i] = (uchar)(calg::abs((i64)mix_2((i32)mid[i * 2], (i32)mid[i * 2 + 1])) % 255);
+    }
+    EXTERN_API void hash_compress_32_str(uchar *src, uchar *rst){
 
     }
-    EXTERN_API void hash_compress_16_str(uchar *src, uchar *mid){
+    EXTERN_API void hash_compress_16_str(uchar *src, uchar *rst){
 
     }
-    EXTERN_API void hash_compress_8_str(uchar *src, uchar *mid){
+    EXTERN_API void hash_compress_8_str(uchar *src, uchar *rst){
 
     }
-    EXTERN_API void hash_compress_4_str(uchar *src, uchar *mid){
+    EXTERN_API void hash_compress_4_str(uchar *src, uchar *rst){
 
     }
     EXTERN_API int hash_file(uchar *fileName, int type){
