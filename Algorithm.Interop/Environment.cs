@@ -60,9 +60,12 @@ namespace Algorithm.Interop
             {
                 if (!File.Exists($"{dll_path}{fn}"))
                 {
-                    wc.DownloadFile(
-                        new Uri($"{cloudUrl}{version}/{fn}", UriKind.Absolute),
-                        Path.GetFullPath($"{dll_path}{fn}"));
+                    new Thread(() =>
+                    {
+                        wc.DownloadFile(
+                            new Uri($"{cloudUrl}{version}/{fn}", UriKind.Absolute),
+                            Path.GetFullPath($"{dll_path}{fn}"));
+                    }).Start();
                 }
             }
             wc.Dispose();
