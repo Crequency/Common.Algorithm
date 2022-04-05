@@ -229,16 +229,28 @@ namespace calg{
             rst[i] = (uchar)(calg::abs((i64)mix_2((i32)mid[i * 2], (i32)mid[i * 2 + 1])) % 255);
     }
     EXTERN_API void hash_compress_32_str(uchar *src, uchar *rst){
-
+        uchar *mid = new uchar[64];
+        hash_compress_64_str(src, mid);
+        for (i32 i = 0; i < 32; ++ i)
+            rst[i] = (uchar)(calg::abs((i64)mix_2((i32)mid[i * 2], (i32)mid[i * 2 + 1])) % 255);
     }
     EXTERN_API void hash_compress_16_str(uchar *src, uchar *rst){
-
+        uchar *mid = new uchar[32];
+        hash_compress_32_str(src, mid);
+        for (i32 i = 0; i < 16; ++ i)
+            rst[i] = (uchar)(calg::abs((i64)mix_2((i32)mid[i * 2], (i32)mid[i * 2 + 1])) % 255);
     }
     EXTERN_API void hash_compress_8_str(uchar *src, uchar *rst){
-
+        uchar *mid = new uchar[16];
+        hash_compress_16_str(src, mid);
+        for (i32 i = 0; i < 8; ++ i)
+            rst[i] = (uchar)(calg::abs((i64)mix_2((i32)mid[i * 2], (i32)mid[i * 2 + 1])) % 255);
     }
     EXTERN_API void hash_compress_4_str(uchar *src, uchar *rst){
-
+        uchar *mid = new uchar[8];
+        hash_compress_8_str(src, mid);
+        for (i32 i = 0; i < 4; ++ i)
+            rst[i] = (uchar)(calg::abs((i64)mix_2((i32)mid[i * 2], (i32)mid[i * 2 + 1])) % 255);
     }
     EXTERN_API int hash_file(uchar *fileName, int type){
         //TODO: 文件哈希
