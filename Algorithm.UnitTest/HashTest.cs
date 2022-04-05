@@ -13,6 +13,15 @@ namespace Algorithm.UnitTest
     public class 哈希测试
     {
         [TestMethod]
+        public void 环境安装测试()
+        {
+            Console.WriteLine(Interop.Environment.CheckEnvironment());
+            Console.WriteLine(Path.GetFullPath($"{Interop.Environment.dll_path}"));
+            if (!Interop.Environment.CheckEnvironment())
+                Interop.Environment.InstallEnvironment();
+        }
+
+        [TestMethod]
         public void 哈希可行性测试()
         {
             string[] testData = new string[15]
