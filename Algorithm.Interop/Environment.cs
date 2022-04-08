@@ -52,23 +52,70 @@ namespace Algorithm.Interop
 
         /// <summary>
         /// 安装环境
+        /// <paramref name="im">安装方式</paramref>
         /// </summary>
-        public static void InstallEnvironment()
+        public static void InstallEnvironment(InstallMethod im = InstallMethod.WebClient)
         {
-            WebClient wc = new();
-            foreach (string fn in CoreFiles)
+            if(!Directory.Exists(dll_path))
+                Directory.CreateDirectory(dll_path);
+            switch (im)
             {
-                if (!File.Exists($"{dll_path}{fn}"))
-                {
-                    new Thread(() =>
+                case InstallMethod.WebClient:
+                    WebClient wc = new();
+                    foreach (string fn in CoreFiles)
                     {
-                        wc.DownloadFile(
-                            new Uri($"{cloudUrl}{version}/{fn}", UriKind.Absolute),
-                            Path.GetFullPath($"{dll_path}{fn}"));
-                    }).Start();
-                }
+                        if (!File.Exists($"{dll_path}{fn}"))
+                        {
+                            wc.DownloadFile(
+                                new Uri($"{cloudUrl}{version}/{fn}", UriKind.Absolute),
+                                Path.GetFullPath($"{dll_path}{fn}"));
+                        }
+                    }
+                    wc.Dispose();
+                    break;
             }
-            wc.Dispose();
+        }
+
+        /// <summary>
+        /// 异步安装环境
+        /// <paramref name="im">异步安装方式</paramref>
+        /// </summary>
+        public static async Task InstallEnvironment(InstallMethodAsync im = InstallMethodAsync.WebClientAsync)
+        {
+            if (!Directory.Exists(dll_path))
+                Directory.CreateDirectory(dll_path);
+            switch (im)
+            {
+                case InstallMethodAsync.WebClientAsync:
+                    var wc = new WebClient();
+                    foreach (string fn in CoreFiles)
+                    {
+                        if (!File.Exists($"{dll_path}{fn}"))
+                        {
+                            await wc.DownloadFileTaskAsync(
+                                new Uri($"{cloudUrl}{version}/{fn}", UriKind.Absolute),
+                                Path.GetFullPath($"{dll_path}{fn}"));
+                        }
+                    }
+                    wc?.Dispose();
+                    break;
+                case InstallMethodAsync.Http:
+
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// 安装环境下载方式
+        /// </summary>
+        public enum InstallMethod
+        {
+            WebClient
+        }
+
+        public enum InstallMethodAsync
+        {
+            WebClientAsync, Http
         }
     }
 }
