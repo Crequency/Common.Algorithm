@@ -15,6 +15,7 @@
     <RepositoryType>git</RepositoryType>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <PackageLicenseExpression>AGPL-3.0-only</PackageLicenseExpression>
+    <PackageId>Catrol.$(AssemblyName)</PackageId>
   </PropertyGroup>
 
   <ItemGroup>
