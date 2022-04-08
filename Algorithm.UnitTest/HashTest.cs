@@ -16,9 +16,18 @@ namespace Algorithm.UnitTest
         public void 环境安装测试()
         {
             Console.WriteLine(Interop.Environment.CheckEnvironment());
+
+            Directory.Delete(Path.GetFullPath($"{Interop.Environment.dll_path}"), true);
             Console.WriteLine(Path.GetFullPath($"{Interop.Environment.dll_path}"));
             if (!Interop.Environment.CheckEnvironment())
-                Interop.Environment.InstallEnvironment();
+                Interop.Environment.InstallEnvironment(Interop.Environment.InstallMethod.WebClient);
+            Assert.IsTrue(Interop.Environment.CheckEnvironment());
+
+            Directory.Delete(Path.GetFullPath($"{Interop.Environment.dll_path}"), true);
+            if (!Interop.Environment.CheckEnvironment())
+                Interop.Environment.InstallEnvironment(Interop.Environment.InstallMethodAsync.WebClientAsync);
+            Thread.Sleep(1000);
+            Assert.IsTrue(Interop.Environment.CheckEnvironment());
         }
 
         [TestMethod]
