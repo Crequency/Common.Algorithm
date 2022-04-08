@@ -44,7 +44,7 @@ namespace Algorithm.Interop
         {
             foreach (string fn in CoreFiles)
             {
-                if (!File.Exists($"{dll_path}{fn}"))
+                if (!File.Exists(Path.GetFullPath($"{dll_path}{fn}")))
                     return false;
             }
             return true;
