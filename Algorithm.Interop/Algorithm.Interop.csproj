@@ -17,7 +17,8 @@
         <PackageLicenseExpression>AGPL-3.0-only</PackageLicenseExpression>
         <PackageId>Catrol.$(AssemblyName)</PackageId>
         <SignAssembly>False</SignAssembly>
-        <VersionPrefix>1.0.1</VersionPrefix>
+		<FileVersion>1.0.$([System.DateTime]::UtcNow.Date.Subtract($([System.DateTime]::Parse("2005-07-16"))).TotalDays).$([System.Math]::Floor($([MSBuild]::Divide($([System.DateTime]::UtcNow.TimeOfDay.TotalSeconds), 1.32))))</FileVersion>
+		<Version>1.0.$([System.DateTime]::UtcNow.Date.Subtract($([System.DateTime]::Parse("2005-07-16"))).TotalDays).$([System.DateTime]::UtcNow.ToString("mmss"))</Version>
     </PropertyGroup>
 
     <ItemGroup>
