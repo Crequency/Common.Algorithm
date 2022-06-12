@@ -80,7 +80,7 @@ namespace Algorithm.Interop
         /// 异步安装环境
         /// <paramref name="im">异步安装方式</paramref>
         /// </summary>
-        public static async Task InstallEnvironment(InstallMethodAsync im = InstallMethodAsync.WebClientAsync)
+        public static async Task InstallEnvironmentAsync(InstallMethodAsync im = InstallMethodAsync.WebClientAsync)
         {
             if (!Directory.Exists(dll_path))
                 Directory.CreateDirectory(dll_path);
@@ -113,6 +113,9 @@ namespace Algorithm.Interop
             WebClient
         }
 
+        /// <summary>
+        /// 安装环境下载方式
+        /// </summary>
         public enum InstallMethodAsync
         {
             WebClientAsync, Http

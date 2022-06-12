@@ -13,7 +13,7 @@ namespace Algorithm.UnitTest
     public class 哈希测试
     {
         [TestMethod]
-        public void 环境安装测试()
+        public async void 环境安装测试()
         {
             Console.WriteLine(Interop.Environment.CheckEnvironment());
 
@@ -25,8 +25,8 @@ namespace Algorithm.UnitTest
 
             Directory.Delete(Path.GetFullPath($"{Interop.Environment.dll_path}"), true);
             if (!Interop.Environment.CheckEnvironment())
-                Interop.Environment.InstallEnvironment(Interop.Environment.InstallMethodAsync.WebClientAsync);
-            Thread.Sleep(1000);
+                await Interop.Environment.InstallEnvironmentAsync(Interop.Environment.InstallMethodAsync.WebClientAsync);
+            Thread.Sleep(3000);
             Assert.IsTrue(Interop.Environment.CheckEnvironment());
         }
 
