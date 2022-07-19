@@ -1,4 +1,4 @@
-name: Build Universal
+name: Build
 
 on:
   push:
@@ -22,23 +22,9 @@ jobs:
           dotnet-version: '6.0.x'
           include-prerelease: false
 
-      - name: Build Contracts
+      - name: Build Interop
         run: |
-          cd "KitX Contracts"
-
-          cd "KitX.Contract.CSharp"
-          dotnet build -c Release
-
-      - name: Build Dashboard
-        run: |
-          cd "KitX Dashboard"
-          dotnet build -c Release
-
-      - name: Build Rules
-        run: |
-          cd "KitX Rules"
-
-          cd "KitX.Web.Rules"
+          cd "Algorithm.Interop"
           dotnet build -c Release
 
   build-on-ubuntu:
@@ -54,23 +40,9 @@ jobs:
           dotnet-version: '6.0.x'
           include-prerelease: false
 
-      - name: Build Contracts
+      - name: Build Interop
         run: |
-          cd "KitX Contracts"
-
-          cd "KitX.Contract.CSharp"
-          dotnet build -c Release
-
-      - name: Build Dashboard
-        run: |
-          cd "KitX Dashboard"
-          dotnet build -c Release
-
-      - name: Build Rules
-        run: |
-          cd "KitX Rules"
-
-          cd "KitX.Web.Rules"
+          cd "Algorithm.Interop"
           dotnet build -c Release
 
   build-on-macos:
@@ -86,23 +58,9 @@ jobs:
           dotnet-version: '6.0.x'
           include-prerelease: false
 
-      - name: Build Contracts
+      - name: Build Interop
         run: |
-          cd "KitX Contracts"
-
-          cd "KitX.Contract.CSharp"
-          dotnet build -c Release
-
-      - name: Build Dashboard
-        run: |
-          cd "KitX Dashboard"
-          dotnet build -c Release
-
-      - name: Build Rules
-        run: |
-          cd "KitX Rules"
-
-          cd "KitX.Web.Rules"
+          cd "Algorithm.Interop"
           dotnet build -c Release
 
 
