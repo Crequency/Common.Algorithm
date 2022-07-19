@@ -1,0 +1,108 @@
+name: Build Universal
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  workflow_dispatch:
+  
+jobs:
+  build-on-windows:
+    runs-on: windows-latest
+
+    steps:
+
+      - uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: '6.0.x'
+          include-prerelease: false
+
+      - name: Build Contracts
+        run: |
+          cd "KitX Contracts"
+
+          cd "KitX.Contract.CSharp"
+          dotnet build -c Release
+
+      - name: Build Dashboard
+        run: |
+          cd "KitX Dashboard"
+          dotnet build -c Release
+
+      - name: Build Rules
+        run: |
+          cd "KitX Rules"
+
+          cd "KitX.Web.Rules"
+          dotnet build -c Release
+
+  build-on-ubuntu:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: '6.0.x'
+          include-prerelease: false
+
+      - name: Build Contracts
+        run: |
+          cd "KitX Contracts"
+
+          cd "KitX.Contract.CSharp"
+          dotnet build -c Release
+
+      - name: Build Dashboard
+        run: |
+          cd "KitX Dashboard"
+          dotnet build -c Release
+
+      - name: Build Rules
+        run: |
+          cd "KitX Rules"
+
+          cd "KitX.Web.Rules"
+          dotnet build -c Release
+
+  build-on-macos:
+    runs-on: macos-latest
+
+    steps:
+
+      - uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: '6.0.x'
+          include-prerelease: false
+
+      - name: Build Contracts
+        run: |
+          cd "KitX Contracts"
+
+          cd "KitX.Contract.CSharp"
+          dotnet build -c Release
+
+      - name: Build Dashboard
+        run: |
+          cd "KitX Dashboard"
+          dotnet build -c Release
+
+      - name: Build Rules
+        run: |
+          cd "KitX Rules"
+
+          cd "KitX.Web.Rules"
+          dotnet build -c Release
+
+
