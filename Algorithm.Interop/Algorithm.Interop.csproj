@@ -9,9 +9,9 @@
     <Company>Catrol</Company>
     <Description>An Interop Library for Algorithm</Description>
     <Copyright>Copyright © Catrol 2022-present. All Rights Reserved.</Copyright>
-    <PackageProjectUrl>https://github.com/Catrol-org/Algorithm</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/Crequency/Algorithm</PackageProjectUrl>
     <PackageIcon>icon.png</PackageIcon>
-    <RepositoryUrl>https://github.com/Catrol-org/Algorithm</RepositoryUrl>
+    <RepositoryUrl>https://github.com/Crequency/Algorithm</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <PackageLicenseExpression>AGPL-3.0-only</PackageLicenseExpression>
