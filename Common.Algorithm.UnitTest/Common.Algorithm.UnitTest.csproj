@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Algorithm.Interop\Algorithm.Interop.csproj" />
+    <ProjectReference Include="..\Common.Algorithm.Interop\Common.Algorithm.Interop.csproj" />
   </ItemGroup>
 
 </Project>

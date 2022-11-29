@@ -6,16 +6,16 @@
         <Nullable>enable</Nullable>
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
         <Authors>Dynesshely</Authors>
-        <Company>Catrol</Company>
+        <Company>Crequency</Company>
         <Description>An Interop Library for Algorithm</Description>
-        <Copyright>Copyright © Catrol 2022-present. All Rights Reserved.</Copyright>
-        <PackageProjectUrl>https://github.com/Crequency/Algorithm</PackageProjectUrl>
+        <Copyright>Copyright © Crequency 2022-present. All Rights Reserved.</Copyright>
+        <PackageProjectUrl>https://github.com/Crequency/Common.Algorithm</PackageProjectUrl>
         <PackageIcon>icon.png</PackageIcon>
-        <RepositoryUrl>https://github.com/Crequency/Algorithm</RepositoryUrl>
+        <RepositoryUrl>https://github.com/Crequency/Common.Algorithm</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
         <PackageLicenseExpression>AGPL-3.0-only</PackageLicenseExpression>
-        <PackageId>Catrol.$(AssemblyName)</PackageId>
+        <PackageId>$(AssemblyName)</PackageId>
         <SignAssembly>False</SignAssembly>
 
         <AssemblyVersion>$(Version)</AssemblyVersion>

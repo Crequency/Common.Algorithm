@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32228.430
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Algorithm.Interop", "Algorithm.Interop\Algorithm.Interop.csproj", "{CF6DE7FB-83C2-4F9D-AED8-81BDDFFAE290}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.Algorithm.Interop", "Common.Algorithm.Interop\Common.Algorithm.Interop.csproj", "{CF6DE7FB-83C2-4F9D-AED8-81BDDFFAE290}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Algorithm.UnitTest", "Algorithm.UnitTest\Algorithm.UnitTest.csproj", "{CA56FF08-4C41-47CA-9FA1-1CAA8DD6C6F7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.Algorithm.UnitTest", "Common.Algorithm.UnitTest\Common.Algorithm.UnitTest.csproj", "{CA56FF08-4C41-47CA-9FA1-1CAA8DD6C6F7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
