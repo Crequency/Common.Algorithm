@@ -1,4 +1,4 @@
-#!/bin/bash
+﻿#!/bin/bash
 
 echo "Start building up project, copying files ... "
 
@@ -12,7 +12,7 @@ mkdir $binFiles
 mkdir $coreFiles
 
 echo "Copying CS Dll Project:"
-for i in "Algorithm.Interop"; do
+for i in "Common.Algorithm.Interop"; do
     echo "    $i"
     echo "        cp ./$i/$com_cspro/$i.dll $binFiles"
     cp ./$i/$com_cspro/$i.dll $binFiles
