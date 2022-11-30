@@ -12,3 +12,5 @@ add_subdirectory ("Math")
 add_subdirectory ("Encode")
 
 add_subdirectory ("Test")
+
+add_definitions ("cpp.hint")
