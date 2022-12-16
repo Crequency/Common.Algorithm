@@ -1,4 +1,4 @@
-﻿namespace Algorithm.Interop.Exceptions
+﻿namespace Common.Algorithm.Interop.Exceptions
 {
     public class HashException : BasicException
     {
