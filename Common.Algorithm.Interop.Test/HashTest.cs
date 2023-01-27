@@ -243,7 +243,7 @@ public class 哈希测试
         sw.Start();
         Parallel.For((int)1e8, (int)1e8 + times, (i, state) =>
         {
-            //ToDo: 多核并行执行测试
+            //TODO: 多核并行执行测试
         });
     }
 }
