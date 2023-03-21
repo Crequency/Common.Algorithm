@@ -3,71 +3,117 @@
 
 namespace calg {
 
-
-
     EXTERN_API int extern_test_getnum() { return 1; }
+
     inline bool cmp_a(i32 a, i32 b) { return a < b; }
+
     inline bool cmp_b(i32 a, i32 b) { return a > b; }
+
     inline i32 mix_2(i32 a, i32 b) {
+
         i32 ea1, ea2, ea3, eb1, eb2, eb3;
+
         exp_1(a, &ea1, &ea2, &ea3);
         exp_1(b, &eb1, &eb2, &eb3);
+
         i64 max, min, mid1, mid2;
+
         calg::maxin(&max, &min, 6, ea1, ea2, ea3, eb1, eb2, eb3);
+
         mid1 = calg::mid(ea2, ea3, eb1);
         mid2 = calg::mid(ea3, eb1, eb2);
+
         i32 m1 = (i32)max, m2 = (i32)min, m3 = (i32)mid1, m4 = (i32)mid2;
-        i32** arr = new i32 * [10]{
-            &ea1, &ea2, &ea3, &eb1, &eb2, &eb3, &m1, &m2, &m3, &m4
+
+        i32** arr = new i32 * [10] {
+            &ea1, & ea2, & ea3, & eb1, & eb2, & eb3, & m1, & m2, & m3, & m4
         };
+
         std::sort(arr, arr + 10,
             [](i32* a, i32* b) {
                 return *a * *b % 2 == 0 ? *a > *b : *a < *b;
             }
         );
+
         return (*arr[calg::abs((i64)(a * b)) % 9] + *arr[calg::abs((i64)(a * b - a)) % 9]
             + *arr[calg::abs((i64)(a * b - b)) % 9]
             + *arr[calg::abs((i64)(a * b - a - b)) % 9] + 1 + a ^ b + a & b) / 4;
     }
+
     inline i32 mix_3(i32 a, i32 b, i32 c) {
+
         i64 t_max, t_min;
+
         calg::maxin(&t_max, &t_min, 3, a, b, c);
+
         i32 max = (i32)t_max, min = (i32)t_min;
-        if (a == max) return ((i64)(a * b * c) - min) % INT32_MAX;
-        else if (c - a > b) return (a * c + (b + c) * a) % INT32_MAX;
-        else if (c - a < b) return ((i64)(b * c - b - c) + calg::pow(a, 2) % INT32_MAX);
+
+        if (a == max)
+            return ((i64)(a * b * c) - min) % INT32_MAX;
+
+        else if (c - a > b)
+            return (a * c + (b + c) * a) % INT32_MAX;
+
+        else if (c - a < b)
+            return ((i64)(b * c - b - c) + calg::pow(a, 2) % INT32_MAX);
+
         else return ((i64)max * min + (max ^ min) * calg::mid(a, b, c)) % INT32_MAX;
     }
+
     inline i32 mix_5(i32 a, i32 b, i32 c, i32 d, i32 e) {
+
         i32 A = mix_3(a, b, c), B = mix_3(c, d, e), C = mix_3(b, c, d),
             D = mix_3(a, c, e), E = mix_3(a, b, d), F = mix_3(e, d, b),
             G = mix_3(a, d, e), H = mix_3(e, b, a), I = mix_3(b, c, e),
             J = mix_3(d, c, a), K = mix_3(a, b, e), L = mix_3(e, d, a);
+
         if (A ^ B & 1) {
+
             i64 CDEF = (i64)C * D - E - F;
+
             return (i32)calg::abs(CDEF % INT32_MAX - (i64)K);
         }
         else {
+
             i64 t_a = calg::abs((i64)(G + H) ^ (i64)(I * J));
+
             return t_a % INT32_MAX - (i64)L;
         }
     }
+
     inline void exp_1(i32 x, i32* a, i32* b, i32* c) {
+
         i32 ea = (x << 1) & 114514, eb = x ^ 1919, ec = (x >> 1) & 810;
+
         i32 ca = (i32)gobit(x, 10), cb = (i32)gobit(x >> 10, 10), cc = (i32)gobit(x >> 20, 10);
+
         *a = (ea ^ ca) >> 1, * b = (eb ^ cb) >> 1, * c = (ec ^ cc) >> 1;
     }
+
     inline void exp_1(i32 x, i32* a, i32* b, i32* c, i32* d) {
-        i32 ea = (x << 1) & 114514, eb = x ^ 1919, ec = (x >> 1) & 810, ed = x;
-        i32 ca = (i32)gobit(x, 8), cb = (i32)gobit(x >> 8, 8), cc = (i32)gobit(x >> 16, 8), cd = (i32)gobit(x >> 24, 8);
+
+        i32 ea = (x << 1) & 114514, eb = x ^ 1919;
+
+        i32 ec = (x >> 1) & 810, ed = x;
+
+        i32 ca = (i32)gobit(x, 8), cb = (i32)gobit(x >> 8, 8);
+
+        i32 cc = (i32)gobit(x >> 16, 8), cd = (i32)gobit(x >> 24, 8);
+
         *a = (ea ^ ca) >> 1, * b = (eb ^ cb) >> 1, * c = (ec ^ cc) >> 1, * d = (ed ^ cd) >> 1;
     }
+
     inline long double spring_func(long double x) {
+
         ld A = sinl(calg::pi * log2l((ld)calg::abs((i64)x * 2 + 1)));
+
         ld B = powl(2, x * 2) + powl(calg::e, x * 4);
+
         return cosl(A + B);
     }
+
     EXTERN_API void hash_str(uchar* src, uchar* rst, int length) {
+
         i32* mid = new i32[hash_length];                                //  中间运算结果
 
         memset(mid, 0, sizeof(i32) * hash_length);                      //  初始化中间运算结果数组
@@ -194,13 +240,18 @@ namespace calg {
 
         return;
     }
+
     EXTERN_API void hash_compress_128_str(uchar* src, uchar* rst) {
+
         i32* mid = new i32[128];
+
         i32** at = new i32 * [16];
+
         for (i32 i = 0; i < 16; ++i)
             at[i] = new i32[128];
 
         memset(mid, (i32)src[64], sizeof(i32) * 128);
+
         for (i32 i = 0, x = 0, y = 0; i < 2048; ++i,
             x = y == 15 ? x + 1 : x,
             y = y == 15 ? 0 : y + 1) {
@@ -222,39 +273,62 @@ namespace calg {
         for (i32 i = 0; i < 16; ++i) {
             delete[]at[i]; at[i] = NULL;
         }
+
         delete[]at; at = NULL;
     }
+
     EXTERN_API void hash_compress_64_str(uchar* src, uchar* rst) {
+
         uchar* mid = new uchar[128];
+
         hash_compress_128_str(src, mid);
+
         for (i32 i = 0; i < 64; ++i)
             rst[i] = (uchar)(calg::abs((i64)mix_2((i32)mid[i * 2], (i32)mid[i * 2 + 1])) % 255);
     }
+
     EXTERN_API void hash_compress_32_str(uchar* src, uchar* rst) {
+
         uchar* mid = new uchar[64];
+
         hash_compress_64_str(src, mid);
+
         for (i32 i = 0; i < 32; ++i)
             rst[i] = (uchar)(calg::abs((i64)mix_2((i32)mid[i * 2], (i32)mid[i * 2 + 1])) % 255);
     }
+
     EXTERN_API void hash_compress_16_str(uchar* src, uchar* rst) {
+
         uchar* mid = new uchar[32];
+
         hash_compress_32_str(src, mid);
+
         for (i32 i = 0; i < 16; ++i)
             rst[i] = (uchar)(calg::abs((i64)mix_2((i32)mid[i * 2], (i32)mid[i * 2 + 1])) % 255);
     }
+
     EXTERN_API void hash_compress_8_str(uchar* src, uchar* rst) {
+
         uchar* mid = new uchar[16];
+
         hash_compress_16_str(src, mid);
+
         for (i32 i = 0; i < 8; ++i)
             rst[i] = (uchar)(calg::abs((i64)mix_2((i32)mid[i * 2], (i32)mid[i * 2 + 1])) % 255);
     }
+
     EXTERN_API void hash_compress_4_str(uchar* src, uchar* rst) {
+
         uchar* mid = new uchar[8];
+
         hash_compress_8_str(src, mid);
+
         for (i32 i = 0; i < 4; ++i)
             rst[i] = (uchar)(calg::abs((i64)mix_2((i32)mid[i * 2], (i32)mid[i * 2 + 1])) % 255);
     }
+
     EXTERN_API int hash_file(uchar* fileName, int type) {
+
         //TODO: 文件哈希
 
         return 1;
