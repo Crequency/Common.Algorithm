@@ -85,38 +85,34 @@ public static class Hash
     #region 辅助函数
 
     /// <summary>
-    /// 统一调用哈希压缩
+    /// 哈希压缩统一调用
     /// </summary>
     /// <param name="mid">源压缩中间哈希值</param>
     /// <param name="clv">哈希压缩级别</param>
     private static byte[] Compress(ref byte[] mid, CompressLevel clv)
     {
+        var ans = new byte[(int)clv];
+
         switch (clv)
         {
             case CompressLevel.x128:
-                var ans128 = new byte[128];
-                hash_compress_128_str(mid, ans128);
-                return ans128;
+                hash_compress_128_str(mid, ans);
+                return ans;
             case CompressLevel.x64:
-                var ans64 = new byte[64];
-                hash_compress_64_str(mid, ans64);
-                return ans64;
+                hash_compress_64_str(mid, ans);
+                return ans;
             case CompressLevel.x32:
-                var ans32 = new byte[32];
-                hash_compress_32_str(mid, ans32);
-                return ans32;
+                hash_compress_32_str(mid, ans);
+                return ans;
             case CompressLevel.x16:
-                var ans16 = new byte[16];
-                hash_compress_16_str(mid, ans16);
-                return ans16;
+                hash_compress_16_str(mid, ans);
+                return ans;
             case CompressLevel.x8:
-                var ans8 = new byte[8];
-                hash_compress_8_str(mid, ans8);
-                return ans8;
+                hash_compress_8_str(mid, ans);
+                return ans;
             case CompressLevel.x4:
-                var ans4 = new byte[4];
-                hash_compress_4_str(mid, ans4);
-                return ans4;
+                hash_compress_4_str(mid, ans);
+                return ans;
             default: return Array.Empty<byte>();
         }
     }
@@ -153,13 +149,16 @@ public static class Hash
     {
         var array = Encoding.UTF8.GetBytes(str);     //  源字符串转 byte[]
         var mid = new byte[2048];                    //  存储哈希值
+
         hash_str(array, mid, array.Length);             //  哈希运算
+
         var rst = Compress(ref mid, clv);            //  哈希压缩运算
+
         return rst;                                     //  返回哈希压缩值
     }
 
     /// <summary>
-    /// 进行字符串哈希(返回十六进制字符串)
+    /// 进行字符串哈希 (返回十六进制字符串)
     /// </summary>
     /// <param name="str">字符串</param>
     /// <param name="rmLink">是否移除连字符</param>
@@ -170,9 +169,12 @@ public static class Hash
     {
         var array = Encoding.UTF8.GetBytes(str);     //  源字符串转 byte[]
         var mid = new byte[2048];                    //  存储哈希值
+
         hash_str(array, mid, array.Length);             //  哈希运算
+
         var rst = Compress(ref mid, clv);            //  哈希压缩运算
         var ans = BitConverter.ToString(rst);        //  哈希压缩运算转十六进制字符串
+
         return rmLink ? ans.Replace("-", "") : ans;     //  返回字符串, 据参数删除连字符
     }
 
@@ -183,14 +185,16 @@ public static class Hash
     /// <returns>哈希后的Byte数组</returns>
     public static byte[] FromString_WithoutCompress(string str)
     {
-        byte[] array = Encoding.UTF8.GetBytes(str);     //  源字符串转 byte[]
-        byte[] mid = new byte[2048];                    //  存储哈希值
+        var array = Encoding.UTF8.GetBytes(str);     //  源字符串转 byte[]
+        var mid = new byte[2048];                    //  存储哈希值
+
         hash_str(array, mid, array.Length);             //  哈希运算
+
         return mid;                                     //  返回哈希压缩值
     }
 
     /// <summary>
-    /// 进行字符串哈希(返回十六进制字符串, 不压缩)
+    /// 进行字符串哈希 (返回十六进制字符串, 不压缩)
     /// </summary>
     /// <param name="str">字符串</param>
     /// <param name="rmLink">是否移除连字符</param>
@@ -198,10 +202,13 @@ public static class Hash
     public static string FromString2Hex_WithoutCompress(string str,
         bool rmLink = false)
     {
-        byte[] array = Encoding.UTF8.GetBytes(str);     //  源字符串转 byte[]
-        byte[] mid = new byte[2048];                    //  存储哈希值
+        var array = Encoding.UTF8.GetBytes(str);     //  源字符串转 byte[]
+        var mid = new byte[2048];                    //  存储哈希值
+
         hash_str(array, mid, array.Length);             //  哈希运算
-        string ans = BitConverter.ToString(mid);        //  哈希压缩运算转十六进制字符串
+
+        var ans = BitConverter.ToString(mid);        //  哈希压缩运算转十六进制字符串
+
         return rmLink ? ans.Replace("-", "") : ans;     //  返回字符串, 据参数删除连字符
     }
 
@@ -222,10 +229,12 @@ public static class Hash
     /// <summary>
     /// 哈希压缩级别
     /// </summary>
-    public enum CompressLevel
+    public enum CompressLevel : int
     {
         // ReSharper disable InconsistentNaming
-        x128 = 5, x64 = 4, x32 = 3, x16 = 2, x8 = 1, x4 = 0
+
+        x128 = 128, x64 = 64, x32 = 32, x16 = 16, x8 = 8, x4 = 4
+
         // ReSharper restore InconsistentNaming
     }
 
