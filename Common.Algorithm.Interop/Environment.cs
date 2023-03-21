@@ -1,8 +1,4 @@
-﻿using System.Net;
-
-#pragma warning disable SYSLIB0014 // 类型或成员已过时
-
-namespace Common.Algorithm.Interop;
+﻿namespace Common.Algorithm.Interop;
 
 public static class Environment
 {
@@ -28,7 +24,7 @@ public static class Environment
     private static readonly List<string> CoreFiles = new()
     {
         "Math.dll",
-        "Hash.dll"
+        "Hash.dll",
     };
 
     /// <summary>
@@ -47,7 +43,7 @@ public static class Environment
     /// 检查环境是否就绪, 核心文件是否存在
     /// </summary>
     /// <returns>环境是否就绪</returns>
-    public static bool CheckEnvironment()
+    public static bool Check()
     {
         foreach (string fn in CoreFiles)
         {
@@ -61,52 +57,35 @@ public static class Environment
     /// 安装环境
     /// <paramref name="im">安装方式</paramref>
     /// </summary>
-    public static void InstallEnvironment(InstallMethod im = InstallMethod.WebClient)
+    public static async Task InstallAsync(InstallMethod im = InstallMethod.HttpClient)
     {
         if (!Directory.Exists(DllPath))
             Directory.CreateDirectory(DllPath);
-        switch (im)
-        {
-            case InstallMethod.WebClient:
-                WebClient wc = new();
-                foreach (string fn in CoreFiles)
-                {
-                    if (!File.Exists($"{DllPath}{fn}"))
-                    {
-                        wc.DownloadFile(
-                            new Uri($"{_cloudUrl}{_version}/{fn}", UriKind.Absolute),
-                            Path.GetFullPath($"{DllPath}{fn}"));
-                    }
-                }
-                wc.Dispose();
-                break;
-        }
-    }
 
-    /// <summary>
-    /// 异步安装环境
-    /// <paramref name="im">异步安装方式</paramref>
-    /// </summary>
-    public static async Task InstallEnvironmentAsync(InstallMethodAsync im = InstallMethodAsync.WebClientAsync)
-    {
-        if (!Directory.Exists(DllPath))
-            Directory.CreateDirectory(DllPath);
         switch (im)
         {
-            case InstallMethodAsync.WebClientAsync:
-                var wc = new WebClient();
-                foreach (string fn in CoreFiles)
+            case InstallMethod.HttpClient:
+
                 {
-                    if (!File.Exists($"{DllPath}{fn}"))
+                    using var client = new HttpClient();
+
+                    foreach (var fn in CoreFiles)
                     {
-                        await wc.DownloadFileTaskAsync(
-                            new Uri($"{_cloudUrl}{_version}/{fn}", UriKind.Absolute),
-                            Path.GetFullPath($"{DllPath}{fn}"));
+                        var downloadUrl = $"{_cloudUrl}{_version}/{fn}";
+                        var savePath = Path.GetFullPath($"{DllPath}{fn}");
+
+                        if (!File.Exists(savePath))
+                        {
+                            using var stream = await client.GetStreamAsync(downloadUrl);
+
+                            using var fileStream = File.Create(savePath);
+
+                            await stream.CopyToAsync(fileStream);
+
+                            await fileStream.FlushAsync();
+                        }
                     }
                 }
-                wc?.Dispose();
-                break;
-            case InstallMethodAsync.Http:
 
                 break;
         }
@@ -117,16 +96,6 @@ public static class Environment
     /// </summary>
     public enum InstallMethod
     {
-        WebClient
-    }
-
-    /// <summary>
-    /// 安装环境下载方式
-    /// </summary>
-    public enum InstallMethodAsync
-    {
-        WebClientAsync, Http
+        HttpClient = 1,
     }
 }
-
-#pragma warning restore SYSLIB0014 // 类型或成员已过时

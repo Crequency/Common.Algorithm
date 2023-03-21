@@ -6,21 +6,23 @@ namespace Common.Algorithm.Interop.Test;
 public class 哈希测试
 {
     [TestMethod]
-    public async void 环境安装测试()
+    public async Task 环境安装测试()
     {
-        Console.WriteLine(Environment.CheckEnvironment());
+        Console.WriteLine(Environment.Check());
 
-        Directory.Delete(Path.GetFullPath($"{Environment.DllPath}"), true);
-        Console.WriteLine(Path.GetFullPath($"{Environment.DllPath}"));
-        if (!Environment.CheckEnvironment())
-            Environment.InstallEnvironment();
-        Assert.IsTrue(Environment.CheckEnvironment());
+        var dir = Path.GetFullPath($"{Environment.DllPath}");
 
-        Directory.Delete(Path.GetFullPath($"{Environment.DllPath}"), true);
-        if (!Environment.CheckEnvironment())
-            await Environment.InstallEnvironmentAsync();
+        Console.WriteLine(dir);
+
+        if (Directory.Exists(dir))
+            Directory.Delete(Path.GetFullPath($"{Environment.DllPath}"), true);
+
+        if (!Environment.Check())
+            await Environment.InstallAsync();
+
         Thread.Sleep(3000);
-        Assert.IsTrue(Environment.CheckEnvironment());
+
+        Assert.IsTrue(Environment.Check());
     }
 
     [TestMethod]
