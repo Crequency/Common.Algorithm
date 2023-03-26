@@ -11,7 +11,7 @@ public static class Environment
     /// <summary>
     /// 云端 DLL 存储路径
     /// </summary>
-    private static string _cloudUrl = "https://source.catrol.cn/lib/Algorithm/Core/";
+    private static string _cloudUrl = "https://source.catrol.cn/lib/Common.Algorithm/Core/";
 
     /// <summary>
     /// 库版本
