@@ -1,9 +1,9 @@
 ﻿using System.Diagnostics;
 
-namespace Common.Algorithm.Interop.Test;
+namespace Common.Algorithm.Interop;
 
 [TestClass]
-public class HashTest
+public class Hash_Tests
 {
     private readonly string[] TestData = new string[15]
     {

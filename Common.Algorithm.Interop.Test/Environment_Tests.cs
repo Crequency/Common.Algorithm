@@ -1,7 +1,7 @@
-﻿namespace Common.Algorithm.Interop.Test;
+﻿namespace Common.Algorithm.Interop;
 
 [TestClass]
-public class EnvironmentTest
+public class Environment_Tests
 {
     [TestMethod]
     public async Task Test_Install()
