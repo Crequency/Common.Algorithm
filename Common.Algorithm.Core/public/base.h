@@ -9,7 +9,6 @@
 #include <list>
 #include <queue>
 #include <ostream>
-#include <iostream>
 #include <sstream>
 
 #define EXTERN_INC extern "C"
