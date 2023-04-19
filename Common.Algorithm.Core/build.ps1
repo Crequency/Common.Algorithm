@@ -8,5 +8,6 @@ cd build
 cmake ..
 # & "${path}MSBuild.exe" ./ALL_BUILD.vcxproj
 msbuild ./ALL_BUILD.vcxproj
+msbuild ./ALL_BUILD.vcxproj /property:Configuration=Release
 cd ..
 
