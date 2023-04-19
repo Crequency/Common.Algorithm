@@ -75,12 +75,12 @@ namespace Common::Algorithm::Core::Math {
         va_end(xs);
     }
 
-    EXTERN_API inline i64 abs(i64 x) {
+    EXTERN_API inline i64 absolute(i64 x) {
 
         return x < 0 ? -x : x;
     }
 
-    EXTERN_API inline i64 pow(i64 x, i64 t) {
+    EXTERN_API inline i64 power(i64 x, i64 t) {
 
         i64 ans = 1;
 
@@ -106,7 +106,7 @@ namespace Common::Algorithm::Core::Math {
 
         for (i32 i = 0, p = 0; i < len; ++i, ++p) {
 
-            if (cx & 1) ans += pow(2, p);
+            if (cx & 1) ans += power(2, p);
             else ans <<= 1;
 
             cx >>= 1;

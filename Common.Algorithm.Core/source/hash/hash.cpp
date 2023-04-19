@@ -1,6 +1,5 @@
 ﻿#include <hash.hpp>
 
-
 namespace Common::Algorithm::Core::Hash {
 
     EXTERN_API int extern_test_getnum() { return 1; }
@@ -35,9 +34,9 @@ namespace Common::Algorithm::Core::Hash {
                   }
         );
 
-        return (*arr[Math::abs((i64)(a * b)) % 9] + *arr[Math::abs((i64)(a * b - a)) % 9]
-                + *arr[Math::abs((i64)(a * b - b)) % 9]
-                + *arr[Math::abs((i64)(a * b - a - b)) % 9] + 1 + a ^ b + a & b) / 4;
+        return (*arr[Math::absolute((i64)(a * b)) % 9] + *arr[Math::absolute((i64)(a * b - a)) % 9]
+                + *arr[Math::absolute((i64)(a * b - b)) % 9]
+                + *arr[Math::absolute((i64)(a * b - a - b)) % 9] + 1 + a ^ b + a & b) / 4;
     }
 
     inline i32 mix_3(i32 a, i32 b, i32 c) {
@@ -55,7 +54,7 @@ namespace Common::Algorithm::Core::Hash {
             return (a * c + (b + c) * a) % INT32_MAX;
 
         else if (c - a < b)
-            return ((i64)(b * c - b - c) + Math::pow(a, 2) % INT32_MAX);
+            return ((i64)(b * c - b - c) + Math::power(a, 2) % INT32_MAX);
 
         else return ((i64)max * min + (max ^ min) * Math::mid(a, b, c)) % INT32_MAX;
     }
@@ -71,11 +70,11 @@ namespace Common::Algorithm::Core::Hash {
 
             i64 CDEF = (i64)C * D - E - F;
 
-            return (i32)Math::abs(CDEF % INT32_MAX - (i64)K);
+            return (i32)Math::absolute(CDEF % INT32_MAX - (i64)K);
         }
         else {
 
-            i64 t_a = Math::abs((i64)(G + H) ^ (i64)(I * J));
+            i64 t_a = Math::absolute((i64)(G + H) ^ (i64)(I * J));
 
             return t_a % INT32_MAX - (i64)L;
         }
@@ -105,7 +104,7 @@ namespace Common::Algorithm::Core::Hash {
 
     inline long double spring_func(long double x) {
 
-        ld A = sinl(Math::pi * log2l((ld)Math::abs((i64)x * 2 + 1)));
+        ld A = sinl(Math::pi * log2l((ld)Math::absolute((i64)x * 2 + 1)));
 
         ld B = powl(2, x * 2) + powl(Math::e, x * 4);
 
@@ -162,7 +161,7 @@ namespace Common::Algorithm::Core::Hash {
                 tar.push(mix_3(ya, yb, xc));
             }
             for (i32 i = 0; i < hash_length; ++i) {
-                mid[i] = (i32)Math::abs((i64)(tar.front() ^ tar.back() * α));
+                mid[i] = (i32)Math::absolute((i64)(tar.front() ^ tar.back() * α));
                 tar.push(tar.front()); tar.pop();
                 mid[i] *= tar.back() + (α - (β ^ γ));
             }
@@ -226,7 +225,7 @@ namespace Common::Algorithm::Core::Hash {
             mid[j] -= mid[i] ^ mid[i + 1];
             mid[j - 1] -= (mid[j - 1] + ((
                 mid[(j + i) >> 1] ^ ~mid[
-                    Math::abs((i64)(mid[i] * mid[j] - mid[i] - mid[j])) % 2047
+                    Math::absolute((i64)(mid[i] * mid[j] - mid[i] - mid[j])) % 2047
                 ]) >> 1));
             mid[0] = mid[i] + mid[j];
             mid[hash_length - 1] = mid[i] - mid[j];
@@ -234,7 +233,7 @@ namespace Common::Algorithm::Core::Hash {
         }
 
         for (i32 i = 0; i < hash_length; ++i)                          //  拷贝中间运算结果到结果
-            rst[i] = (uchar)((i32)Math::abs((i64)mid[i]) % 255);
+            rst[i] = (uchar)((i32)Math::absolute((i64)mid[i]) % 255);
 
         delete[] mid; mid = NULL;                                       //  回收中间运算结果数组
 
@@ -267,7 +266,7 @@ namespace Common::Algorithm::Core::Hash {
                 if (i != 0) at[j][i - 1] ^= tmp;
                 if (j != 0) at[j - 1][i] &= tmp;
             }
-            rst[i] = (uchar)((i32)Math::abs(tmp) % 255);
+            rst[i] = (uchar)((i32)Math::absolute(tmp) % 255);
         }
 
         for (i32 i = 0; i < 16; ++i) {
@@ -284,7 +283,7 @@ namespace Common::Algorithm::Core::Hash {
         hash_compress_128_str(src, mid);
 
         for (i32 i = 0; i < 64; ++i)
-            rst[i] = (uchar)(Math::abs((i64)mix_2((i32)mid[i * 2], (i32)mid[i * 2 + 1])) % 255);
+            rst[i] = (uchar)(Math::absolute((i64)mix_2((i32)mid[i * 2], (i32)mid[i * 2 + 1])) % 255);
     }
 
     EXTERN_API void hash_compress_32_str(uchar *src, uchar *rst) {
@@ -294,7 +293,7 @@ namespace Common::Algorithm::Core::Hash {
         hash_compress_64_str(src, mid);
 
         for (i32 i = 0; i < 32; ++i)
-            rst[i] = (uchar)(Math::abs((i64)mix_2((i32)mid[i * 2], (i32)mid[i * 2 + 1])) % 255);
+            rst[i] = (uchar)(Math::absolute((i64)mix_2((i32)mid[i * 2], (i32)mid[i * 2 + 1])) % 255);
     }
 
     EXTERN_API void hash_compress_16_str(uchar *src, uchar *rst) {
@@ -304,7 +303,7 @@ namespace Common::Algorithm::Core::Hash {
         hash_compress_32_str(src, mid);
 
         for (i32 i = 0; i < 16; ++i)
-            rst[i] = (uchar)(Math::abs((i64)mix_2((i32)mid[i * 2], (i32)mid[i * 2 + 1])) % 255);
+            rst[i] = (uchar)(Math::absolute((i64)mix_2((i32)mid[i * 2], (i32)mid[i * 2 + 1])) % 255);
     }
 
     EXTERN_API void hash_compress_8_str(uchar *src, uchar *rst) {
@@ -314,7 +313,7 @@ namespace Common::Algorithm::Core::Hash {
         hash_compress_16_str(src, mid);
 
         for (i32 i = 0; i < 8; ++i)
-            rst[i] = (uchar)(Math::abs((i64)mix_2((i32)mid[i * 2], (i32)mid[i * 2 + 1])) % 255);
+            rst[i] = (uchar)(Math::absolute((i64)mix_2((i32)mid[i * 2], (i32)mid[i * 2 + 1])) % 255);
     }
 
     EXTERN_API void hash_compress_4_str(uchar *src, uchar *rst) {
@@ -324,7 +323,7 @@ namespace Common::Algorithm::Core::Hash {
         hash_compress_8_str(src, mid);
 
         for (i32 i = 0; i < 4; ++i)
-            rst[i] = (uchar)(Math::abs((i64)mix_2((i32)mid[i * 2], (i32)mid[i * 2 + 1])) % 255);
+            rst[i] = (uchar)(Math::absolute((i64)mix_2((i32)mid[i * 2], (i32)mid[i * 2 + 1])) % 255);
     }
 
     EXTERN_API int hash_file(uchar *fileName, int type) {
