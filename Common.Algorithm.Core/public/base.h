@@ -17,8 +17,9 @@
 #define EXTERN_ALL extern "C" __declspec(dllexport)
 
 typedef unsigned char uchar;
-typedef __int64 i64;
-typedef unsigned __int64 ull;
-typedef __int32 i32;
-typedef unsigned __int32 uint;
 typedef long double ld;
+
+typedef int64_t i64;
+typedef int32_t i32;
+typedef uint64_t u64;
+typedef uint32_t u32;
