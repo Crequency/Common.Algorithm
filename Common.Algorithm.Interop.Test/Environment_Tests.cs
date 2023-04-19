@@ -8,12 +8,7 @@ public class Environment_Tests
     {
         Console.WriteLine(Environment.Check());
 
-        var dir = Path.GetFullPath($"{Environment.DllPath}");
-
-        Console.WriteLine(dir);
-
-        if (Directory.Exists(dir))
-            Directory.Delete(Path.GetFullPath($"{Environment.DllPath}"), true);
+        Console.WriteLine(Path.GetFullPath("./"));
 
         if (!Environment.Check())
             await Environment.InstallAsync();

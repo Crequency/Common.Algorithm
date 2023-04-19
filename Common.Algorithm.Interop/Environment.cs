@@ -2,29 +2,32 @@
 
 public static class Environment
 {
-
-    /// <summary>
-    /// 核心文件路径
-    /// </summary>
-    public const string DllPath = "./Core/";
-
     /// <summary>
     /// 云端 DLL 存储路径
     /// </summary>
-    private static string _cloudUrl = "https://source.catrol.cn/lib/Common.Algorithm/Core/";
+    private static string _cloudUrl = "https://source.catrol.cn/lib/Common.Algorithm.Core";
 
     /// <summary>
     /// 库版本
     /// </summary>
-    private static string _version = "v1.0";
+    private static string _version = "v2.0";
+
+    /// <summary>
+    /// 库架构
+    /// </summary>
+    private static string _arch
+#if DEBUG
+        = "win-x64-debug";
+#else
+        = "win-x64";
+#endif
 
     /// <summary>
     /// 核心文件文件名
     /// </summary>
     private static readonly List<string> CoreFiles = new()
     {
-        "Math.dll",
-        "Hash.dll",
+        "Common.Algorithm.Core.dll",
     };
 
     /// <summary>
@@ -40,14 +43,20 @@ public static class Environment
     public static void UpdateCloudStorageVersion(string ver) => _version = ver;
 
     /// <summary>
+    /// 更新云端存储架构
+    /// </summary>
+    /// <param name="arch">架构</param>
+    public static void UpdateCloudStorageArchitecture(string arch) => _arch = arch;
+
+    /// <summary>
     /// 检查环境是否就绪, 核心文件是否存在
     /// </summary>
     /// <returns>环境是否就绪</returns>
     public static bool Check()
     {
-        foreach (string fn in CoreFiles)
+        foreach (var fn in CoreFiles)
         {
-            if (!File.Exists(Path.GetFullPath($"{DllPath}{fn}")))
+            if (!File.Exists(Path.GetFullPath($"./{fn}")))
                 return false;
         }
         return true;
@@ -59,9 +68,6 @@ public static class Environment
     /// </summary>
     public static async Task InstallAsync(InstallMethod im = InstallMethod.HttpClient)
     {
-        if (!Directory.Exists(DllPath))
-            Directory.CreateDirectory(DllPath);
-
         switch (im)
         {
             case InstallMethod.HttpClient:
@@ -71,8 +77,8 @@ public static class Environment
 
                     foreach (var fn in CoreFiles)
                     {
-                        var downloadUrl = $"{_cloudUrl}{_version}/{fn}";
-                        var savePath = Path.GetFullPath($"{DllPath}{fn}");
+                        var downloadUrl = $"{_cloudUrl}/{_arch}/{_version}/{fn}";
+                        var savePath = Path.GetFullPath($"./{fn}");
 
                         if (!File.Exists(savePath))
                         {

@@ -7,7 +7,7 @@
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
         <Authors>Dynesshely</Authors>
         <Company>Crequency</Company>
-        <Description>An Interop Library for Algorithm</Description>
+        <Description>An Interop Library for Common.Algorithm.Core</Description>
         <Copyright>Copyright © Crequency 2022-present. All Rights Reserved.</Copyright>
         <PackageProjectUrl>https://github.com/Crequency/Common.Algorithm</PackageProjectUrl>
         <PackageIcon>icon.png</PackageIcon>
@@ -20,7 +20,7 @@
 
         <AssemblyVersion>$(Version)</AssemblyVersion>
         <FileVersion>$(Version)</FileVersion>
-        <Version>1.2.$([System.DateTime]::UtcNow.Date.Subtract($([System.DateTime]::Parse("2005-06-06"))).TotalDays).$([System.Math]::Floor($([System.DateTime]::UtcNow.TimeOfDay.TotalMinutes)))</Version>
+        <Version>2.0.$([System.DateTime]::UtcNow.Date.Subtract($([System.DateTime]::Parse("2005-06-06"))).TotalDays).$([System.Math]::Floor($([System.DateTime]::UtcNow.TimeOfDay.TotalMinutes)))</Version>
 
     </PropertyGroup>
 
