@@ -1,6 +1,6 @@
-﻿#include "../Base/base.h"
+﻿#include <base.h>
 
-namespace calg {
+namespace Common::Algorithm::Core::Math {
 
     const long double pi = 3.14159265358979323846;
 
@@ -12,7 +12,7 @@ namespace calg {
 
     EXTERN_ALL inline i64 mid(i64 a, i64 b, i64 c);
 
-    EXTERN_ALL inline void maxin(i64* max, i64* min, i64 x, ...);
+    EXTERN_ALL inline void maxin(i64 *max, i64 *min, i64 x, ...);
 
     EXTERN_ALL inline i64 abs(i64 x);
 

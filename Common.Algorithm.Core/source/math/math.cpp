@@ -1,6 +1,6 @@
-﻿#include "Math.h"
+﻿#include <math.hpp>
 
-namespace calg {
+namespace Common::Algorithm::Core::Math {
 
     EXTERN_API inline i64 max(i64 x, ...) {
 
@@ -55,13 +55,13 @@ namespace calg {
         return NULL;
     }
 
-    EXTERN_API inline void maxin(i64* max, i64* min, i64 x, ...) {
+    EXTERN_API inline void maxin(i64 *max, i64 *min, i64 x, ...) {
 
         va_list xs;
 
         va_start(xs, x);
 
-        *max = va_arg(xs, i64), * min = va_arg(xs, i64);
+        *max = va_arg(xs, i64), *min = va_arg(xs, i64);
 
         for (int i = 3; i < x; ++i) {
 
