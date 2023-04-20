@@ -2,6 +2,10 @@
 
 public static class Environment
 {
+    private const string _fileName_win = "%name%.dll";
+    private const string _fileName_linux = "lib%name%.so";
+    private const string _fileName_mac = "lib%name%.dylib";
+
     /// <summary>
     /// 云端 DLL 存储路径
     /// </summary>
@@ -17,9 +21,9 @@ public static class Environment
     /// </summary>
     private static string _arch
 #if DEBUG
-        = "win-x64-debug";
+        = "%platform%-x64-debug";
 #else
-        = "win-x64";
+        = "%platform%-x64";
 #endif
 
     /// <summary>
@@ -27,7 +31,7 @@ public static class Environment
     /// </summary>
     private static readonly List<string> CoreFiles = new()
     {
-        "Common.Algorithm.Core.dll",
+        "Common.Algorithm.Core",
     };
 
     /// <summary>
@@ -43,10 +47,27 @@ public static class Environment
     public static void UpdateCloudStorageVersion(string ver) => _version = ver;
 
     /// <summary>
-    /// 更新云端存储架构
+    /// 搜索库文件
     /// </summary>
-    /// <param name="arch">架构</param>
-    public static void UpdateCloudStorageArchitecture(string arch) => _arch = arch;
+    /// <param name="name">文件名</param>
+    /// <returns>是否存在变体文件名的库文件</returns>
+    private static bool SearchLibraryFile(string name)
+    {
+        var isWindows = OperatingSystem.IsWindows();
+        var isLinux = OperatingSystem.IsLinux();
+        var isMac = OperatingSystem.IsMacOS();
+
+        if (isWindows && !File.Exists(_fileName_win.Replace("%name%", name)))
+            return false;
+
+        if (isLinux && !File.Exists(_fileName_linux.Replace("%name%", name)))
+            return false;
+
+        if (isMac && !File.Exists(_fileName_mac.Replace("%name%", name)))
+            return false;
+
+        return true;
+    }
 
     /// <summary>
     /// 检查环境是否就绪, 核心文件是否存在
@@ -55,10 +76,8 @@ public static class Environment
     public static bool Check()
     {
         foreach (var fn in CoreFiles)
-        {
-            if (!File.Exists(Path.GetFullPath($"./{fn}")))
+            if (SearchLibraryFile(fn))
                 return false;
-        }
         return true;
     }
 
@@ -68,6 +87,10 @@ public static class Environment
     /// </summary>
     public static async Task InstallAsync(InstallMethod im = InstallMethod.HttpClient)
     {
+        if (OperatingSystem.IsWindows()) _arch = _arch.Replace("%platform%", "win");
+        if (OperatingSystem.IsLinux()) _arch = _arch.Replace("%platform%", "linux");
+        if (OperatingSystem.IsMacOS()) _arch = _arch.Replace("%platform%", "mac");
+
         switch (im)
         {
             case InstallMethod.HttpClient:
