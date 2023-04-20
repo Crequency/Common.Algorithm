@@ -84,8 +84,8 @@ namespace Common::Algorithm::Core::Hash {
 
         i32 ea = (x << 1) & 114514, eb = x ^ 1919, ec = (x >> 1) & 810;
 
-        i32 ca = (i32) Math::gobit(x, 10), cb = (i32) Math::gobit(x >> 10, 10), cc = (i32) Math::gobit(
-                x >> 20, 10);
+        i32 ca = (i32)Math::gobit(x, 10), cb = (i32)Math::gobit(x >> 10, 10), cc = (i32)Math::gobit(
+            x >> 20, 10);
 
         *a = (ea ^ ca) >> 1, *b = (eb ^ cb) >> 1, *c = (ec ^ cc) >> 1;
     }
@@ -96,9 +96,9 @@ namespace Common::Algorithm::Core::Hash {
 
         i32 ec = (x >> 1) & 810, ed = x;
 
-        i32 ca = (i32) Math::gobit(x, 8), cb = (i32) Math::gobit(x >> 8, 8);
+        i32 ca = (i32)Math::gobit(x, 8), cb = (i32)Math::gobit(x >> 8, 8);
 
-        i32 cc = (i32) Math::gobit(x >> 16, 8), cd = (i32) Math::gobit(x >> 24, 8);
+        i32 cc = (i32)Math::gobit(x >> 16, 8), cd = (i32)Math::gobit(x >> 24, 8);
 
         *a = (ea ^ ca) >> 1, *b = (eb ^ cb) >> 1, *c = (ec ^ cc) >> 1, *d = (ed ^ cd) >> 1;
     }
@@ -117,7 +117,7 @@ namespace Common::Algorithm::Core::Hash {
         i32 *mid = new i32[hash_length];                                //  中间运算结果
 
         memset(mid, 0, sizeof(i32) * hash_length);                      //  初始化中间运算结果数组
-        memset(mid, '0', sizeof(uchar) * hash_length);                  //  初始化结果数组
+        memset(rst, '0', sizeof(uchar) * hash_length);                  //  初始化结果数组
 
         /* 源字符串预填充 */
         if (length == hash_length)                                      //  长度刚好, 直接填充
@@ -226,7 +226,7 @@ namespace Common::Algorithm::Core::Hash {
             mid[j] -= mid[i] ^ mid[i + 1];
             mid[j - 1] -= (mid[j - 1] + ((
                 mid[(j + i) >> 1] ^ ~mid[
-                        Math::absolute((i64)(mid[i] * mid[j] - mid[i] - mid[j])) % 2047
+                    Math::absolute((i64)(mid[i] * mid[j] - mid[i] - mid[j])) % 2047
                 ]) >> 1));
             mid[0] = mid[i] + mid[j];
             mid[hash_length - 1] = mid[i] - mid[j];
