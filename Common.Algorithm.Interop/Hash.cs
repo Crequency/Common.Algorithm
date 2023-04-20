@@ -19,7 +19,7 @@ public static class Hash
     /// <param name="output">输出</param>
     /// <param name="length">长度</param>
     /// <returns>哈希后的数据</returns>
-    [DllImport($"Common.Algorithm.Core.dll", EntryPoint = "hash_str")]
+    [DllImport("Common.Algorithm.Core", EntryPoint = "hash_str")]
     private static extern void hash_str(byte[] src, byte[] output, int length);
 
     /// <summary>
@@ -28,7 +28,7 @@ public static class Hash
     /// <param name="src">哈希数据</param>
     /// <param name="output">输出</param>
     /// <returns>哈希压缩后的数据</returns>
-    [DllImport($"Common.Algorithm.Core.dll", EntryPoint = "hash_compress_128_str")]
+    [DllImport("Common.Algorithm.Core", EntryPoint = "hash_compress_128_str")]
     private static extern void hash_compress_128_str(byte[] src, byte[] output);
 
     /// <summary>
@@ -37,7 +37,7 @@ public static class Hash
     /// <param name="src">哈希数据</param>
     /// <param name="output">输出</param>
     /// <returns>哈希压缩后的数据</returns>
-    [DllImport($"Common.Algorithm.Core.dll", EntryPoint = "hash_compress_64_str")]
+    [DllImport("Common.Algorithm.Core", EntryPoint = "hash_compress_64_str")]
     private static extern void hash_compress_64_str(byte[] src, byte[] output);
 
     /// <summary>
@@ -46,7 +46,7 @@ public static class Hash
     /// <param name="src">哈希数据</param>
     /// <param name="output">输出</param>
     /// <returns>哈希压缩后的数据</returns>
-    [DllImport($"Common.Algorithm.Core.dll", EntryPoint = "hash_compress_32_str")]
+    [DllImport("Common.Algorithm.Core", EntryPoint = "hash_compress_32_str")]
     private static extern void hash_compress_32_str(byte[] src, byte[] output);
 
     /// <summary>
@@ -55,7 +55,7 @@ public static class Hash
     /// <param name="src">哈希数据</param>
     /// <param name="output">输出</param>
     /// <returns>哈希压缩后的数据</returns>
-    [DllImport($"Common.Algorithm.Core.dll", EntryPoint = "hash_compress_16_str")]
+    [DllImport("Common.Algorithm.Core", EntryPoint = "hash_compress_16_str")]
     private static extern void hash_compress_16_str(byte[] src, byte[] output);
 
     /// <summary>
@@ -64,7 +64,7 @@ public static class Hash
     /// <param name="src">哈希数据</param>
     /// <param name="output">输出</param>
     /// <returns>哈希压缩后的数据</returns>
-    [DllImport($"Common.Algorithm.Core.dll", EntryPoint = "hash_compress_8_str")]
+    [DllImport("Common.Algorithm.Core", EntryPoint = "hash_compress_8_str")]
     private static extern void hash_compress_8_str(byte[] src, byte[] output);
 
     /// <summary>
@@ -73,7 +73,7 @@ public static class Hash
     /// <param name="src">哈希数据</param>
     /// <param name="output">输出</param>
     /// <returns>哈希压缩后的数据</returns>
-    [DllImport($"Common.Algorithm.Core.dll", EntryPoint = "hash_compress_4_str")]
+    [DllImport("Common.Algorithm.Core", EntryPoint = "hash_compress_4_str")]
     private static extern void hash_compress_4_str(byte[] src, byte[] output);
 
     #endregion
