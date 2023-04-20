@@ -2,8 +2,8 @@
 
 #include <hash.hpp>
 
-typedef __int32 i32;
-typedef __int64 i64;
+typedef int32_t i32;
+typedef int64_t i64;
 typedef unsigned char uchar;
 
 using namespace std;
