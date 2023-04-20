@@ -1,5 +1,9 @@
-﻿mkdir build
+﻿#!/usr/bin/bash
+
+mkdir build
 cd build
 cmake ..
 make
 cd ..
+
+
