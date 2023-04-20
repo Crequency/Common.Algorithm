@@ -2,7 +2,7 @@
 
 namespace Common::Algorithm::Core::Hash {
 
-    EXTERN_API int extern_test_getnum() { return 1; }
+    EXPORTED int extern_test_getnum() { return 1; }
 
     inline bool cmp_a(i32 a, i32 b) { return a < b; }
 
@@ -111,7 +111,7 @@ namespace Common::Algorithm::Core::Hash {
         return cosl(A + B);
     }
 
-    EXTERN_API void hash_str(uchar *src, uchar *rst, int length) {
+    EXPORTED void hash_str(uchar *src, uchar *rst, int length) {
 
         i32 *mid = new i32[hash_length];                                //  中间运算结果
 
@@ -240,7 +240,7 @@ namespace Common::Algorithm::Core::Hash {
         return;
     }
 
-    EXTERN_API void hash_compress_128_str(uchar *src, uchar *rst) {
+    EXPORTED void hash_compress_128_str(uchar *src, uchar *rst) {
 
         i32 *mid = new i32[128];
 
@@ -276,7 +276,7 @@ namespace Common::Algorithm::Core::Hash {
         delete[]at; at = NULL;
     }
 
-    EXTERN_API void hash_compress_64_str(uchar *src, uchar *rst) {
+    EXPORTED void hash_compress_64_str(uchar *src, uchar *rst) {
 
         uchar *mid = new uchar[128];
 
@@ -286,7 +286,7 @@ namespace Common::Algorithm::Core::Hash {
             rst[i] = (uchar)(Math::absolute((i64)mix_2((i32)mid[i * 2], (i32)mid[i * 2 + 1])) % 255);
     }
 
-    EXTERN_API void hash_compress_32_str(uchar *src, uchar *rst) {
+    EXPORTED void hash_compress_32_str(uchar *src, uchar *rst) {
 
         uchar *mid = new uchar[64];
 
@@ -296,7 +296,7 @@ namespace Common::Algorithm::Core::Hash {
             rst[i] = (uchar)(Math::absolute((i64)mix_2((i32)mid[i * 2], (i32)mid[i * 2 + 1])) % 255);
     }
 
-    EXTERN_API void hash_compress_16_str(uchar *src, uchar *rst) {
+    EXPORTED void hash_compress_16_str(uchar *src, uchar *rst) {
 
         uchar *mid = new uchar[32];
 
@@ -306,7 +306,7 @@ namespace Common::Algorithm::Core::Hash {
             rst[i] = (uchar)(Math::absolute((i64)mix_2((i32)mid[i * 2], (i32)mid[i * 2 + 1])) % 255);
     }
 
-    EXTERN_API void hash_compress_8_str(uchar *src, uchar *rst) {
+    EXPORTED void hash_compress_8_str(uchar *src, uchar *rst) {
 
         uchar *mid = new uchar[16];
 
@@ -316,7 +316,7 @@ namespace Common::Algorithm::Core::Hash {
             rst[i] = (uchar)(Math::absolute((i64)mix_2((i32)mid[i * 2], (i32)mid[i * 2 + 1])) % 255);
     }
 
-    EXTERN_API void hash_compress_4_str(uchar *src, uchar *rst) {
+    EXPORTED void hash_compress_4_str(uchar *src, uchar *rst) {
 
         uchar *mid = new uchar[8];
 
@@ -326,7 +326,7 @@ namespace Common::Algorithm::Core::Hash {
             rst[i] = (uchar)(Math::absolute((i64)mix_2((i32)mid[i * 2], (i32)mid[i * 2 + 1])) % 255);
     }
 
-    EXTERN_API int hash_file(uchar *fileName, int type) {
+    EXPORTED int hash_file(uchar *fileName, int type) {
 
         //TODO: 文件哈希
 

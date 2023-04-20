@@ -2,7 +2,7 @@
 
 namespace Common::Algorithm::Core::Math {
 
-    EXTERN_API inline i64 max(i64 x, ...) {
+    EXPORTED inline i64 max(i64 x, ...) {
 
         va_list xs;
 
@@ -22,7 +22,7 @@ namespace Common::Algorithm::Core::Math {
         return tmp;
     }
 
-    EXTERN_API inline i64 min(i64 x, ...) {
+    EXPORTED inline i64 min(i64 x, ...) {
 
         va_list xs;
 
@@ -42,7 +42,7 @@ namespace Common::Algorithm::Core::Math {
         return tmp;
     }
 
-    EXTERN_API inline i64 mid(i64 a, i64 b, i64 c) {
+    EXPORTED inline i64 mid(i64 a, i64 b, i64 c) {
 
         i64 l = max(3, a, b, c), s = min(3, a, b, c);
 
@@ -55,7 +55,7 @@ namespace Common::Algorithm::Core::Math {
         return NULL;
     }
 
-    EXTERN_API inline void maxin(i64 *max, i64 *min, i64 x, ...) {
+    EXPORTED inline void maxin(i64 *max, i64 *min, i64 x, ...) {
 
         va_list xs;
 
@@ -75,12 +75,12 @@ namespace Common::Algorithm::Core::Math {
         va_end(xs);
     }
 
-    EXTERN_API inline i64 absolute(i64 x) {
+    EXPORTED inline i64 absolute(i64 x) {
 
         return x < 0 ? -x : x;
     }
 
-    EXTERN_API inline i64 power(i64 x, i64 t) {
+    EXPORTED inline i64 power(i64 x, i64 t) {
 
         i64 ans = 1;
 
@@ -89,7 +89,7 @@ namespace Common::Algorithm::Core::Math {
         return ans;
     }
 
-    EXTERN_API inline i64 gcd(i64 a, i64 b) {
+    EXPORTED inline i64 gcd(i64 a, i64 b) {
 
         if (a == b) return a;
 
@@ -100,7 +100,7 @@ namespace Common::Algorithm::Core::Math {
         return gcd(dis, min(a, b));
     }
 
-    EXTERN_API i64 gobit(i64 x, i32 len) {
+    EXPORTED i64 gobit(i64 x, i32 len) {
 
         i64 ans = 0, cx = x;
 

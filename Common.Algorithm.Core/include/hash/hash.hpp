@@ -3,9 +3,9 @@
 
 namespace Common::Algorithm::Core::Hash {
 
-    EXTERN_ALL const i32 hash_length = 2048;
+    EXPORTED const i32 hash_length = 2048;
 
-    EXTERN_ALL const i32 hash_block_length = 128;
+    EXPORTED const i32 hash_block_length = 128;
 
 
 
@@ -27,22 +27,22 @@ namespace Common::Algorithm::Core::Hash {
 
 
 
-    EXTERN_ALL int extern_test_getnum();
+    EXPORTED int extern_test_getnum();
 
-    EXTERN_ALL void hash_str(uchar *src, uchar *rst, int length);
+    EXPORTED void hash_str(uchar *src, uchar *rst, int length);
 
-    EXTERN_ALL void hash_compress_128_str(uchar *src, uchar *rst);
+    EXPORTED void hash_compress_128_str(uchar *src, uchar *rst);
 
-    EXTERN_ALL void hash_compress_64_str(uchar *src, uchar *rst);
+    EXPORTED void hash_compress_64_str(uchar *src, uchar *rst);
 
-    EXTERN_ALL void hash_compress_32_str(uchar *src, uchar *rst);
+    EXPORTED void hash_compress_32_str(uchar *src, uchar *rst);
 
-    EXTERN_ALL void hash_compress_16_str(uchar *src, uchar *rst);
+    EXPORTED void hash_compress_16_str(uchar *src, uchar *rst);
 
-    EXTERN_ALL void hash_compress_8_str(uchar *src, uchar *rst);
+    EXPORTED void hash_compress_8_str(uchar *src, uchar *rst);
 
-    EXTERN_ALL void hash_compress_4_str(uchar *src, uchar *rst);
+    EXPORTED void hash_compress_4_str(uchar *src, uchar *rst);
 
-    EXTERN_ALL int hash_file(uchar *fileName, int type);
+    EXPORTED int hash_file(uchar *fileName, int type);
 
 }

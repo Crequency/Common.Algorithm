@@ -3,6 +3,6 @@
 
 namespace Common::Algorithm::Core::Encode {
 
-    EXTERN_ALL void encode_text_move(uchar *src, uchar *out, int length);
+    EXPORTED void encode_text_move(uchar *src, uchar *out, int length);
 
 }

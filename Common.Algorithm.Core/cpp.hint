@@ -2,9 +2,7 @@
 // 如函数和宏的名称。
 // 有关详细信息，请参见 https://go.microsoft.com/fwlink/?linkid=865984
 
-#define EXTERN_API __declspec(dllexport)
-#define EXTERN_API __attribute__ ((dllexport))
-#define EXTERN_API __attribute__ ((visibility ("default")))
-#define EXTERN_ALL extern "C" __declspec(dllexport)
-#define EXTERN_ALL __attribute__ ((dllexport))
-#define EXTERN_ALL __attribute__ ((visibility ("default")))
+#define EXPORTED extern "C" __attribute__ ((visibility ("default")))
+#define EXPORTED
+#define EXPORTED __attribute__ ((dllexport))
+#define EXPORTED extern "C" __declspec(dllexport)
