@@ -47,26 +47,22 @@ public static class Environment
     public static void UpdateCloudStorageVersion(string ver) => _version = ver;
 
     /// <summary>
-    /// 搜索库文件
+    /// 获取平台特定文件名称
     /// </summary>
     /// <param name="name">文件名</param>
-    /// <returns>是否存在变体文件名的库文件</returns>
-    private static bool SearchLibraryFile(string name)
+    /// <returns>平台特定文件名</returns>
+    private static string GetPlatformFileName(string name)
     {
-        var isWindows = OperatingSystem.IsWindows();
-        var isLinux = OperatingSystem.IsLinux();
-        var isMac = OperatingSystem.IsMacOS();
+        if (OperatingSystem.IsWindows())
+            return _fileName_win.Replace("%name%", name);
 
-        if (isWindows && !File.Exists(_fileName_win.Replace("%name%", name)))
-            return false;
+        if (OperatingSystem.IsLinux())
+            return _fileName_linux.Replace("%name%", name);
 
-        if (isLinux && !File.Exists(_fileName_linux.Replace("%name%", name)))
-            return false;
+        if (OperatingSystem.IsMacOS())
+            return _fileName_mac.Replace("%name%", name);
 
-        if (isMac && !File.Exists(_fileName_mac.Replace("%name%", name)))
-            return false;
-
-        return true;
+        else return name;
     }
 
     /// <summary>
@@ -76,7 +72,7 @@ public static class Environment
     public static bool Check()
     {
         foreach (var fn in CoreFiles)
-            if (SearchLibraryFile(fn))
+            if (!File.Exists(GetPlatformFileName(fn)))
                 return false;
         return true;
     }
@@ -100,8 +96,9 @@ public static class Environment
 
                     foreach (var fn in CoreFiles)
                     {
-                        var downloadUrl = $"{_cloudUrl}/{_arch}/{_version}/{fn}";
-                        var savePath = Path.GetFullPath($"./{fn}");
+                        var file = GetPlatformFileName(fn);
+                        var downloadUrl = $"{_cloudUrl}/{_arch}/{_version}/{file}";
+                        var savePath = Path.GetFullPath($"./{file}");
 
                         if (!File.Exists(savePath))
                         {
