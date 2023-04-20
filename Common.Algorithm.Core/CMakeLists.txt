@@ -9,16 +9,16 @@ set(CMAKE_CXX_STANDARD 20)
 
 file(GLOB SOURCE_FILES
     "${CMAKE_CURRENT_SOURCE_DIR}/source/*.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/source/encode/*.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/source/hash/*.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/source/math/*.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/source/encode/*.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/source/hash/*.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/source/math/*.cpp"
 )
 
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/include/encode
-    ${CMAKE_CURRENT_SOURCE_DIR}/include/hash
-    ${CMAKE_CURRENT_SOURCE_DIR}/include/math
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/encode
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/hash
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/math
     ${CMAKE_CURRENT_SOURCE_DIR}/public
 )
 
