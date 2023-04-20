@@ -1,10 +1,12 @@
 ﻿//#include "stdc++.h"
 
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
 #include <algorithm>
 #include <cstdarg>
+#include <cstring>
 #include <stack>
 #include <list>
 #include <queue>
