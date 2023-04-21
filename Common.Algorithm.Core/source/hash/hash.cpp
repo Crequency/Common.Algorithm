@@ -34,9 +34,7 @@ namespace Common::Algorithm::Core::Hash {
                   }
         );
 
-        return (*arr[Math::absolute((i64)(a * b)) % 9] + *arr[Math::absolute((i64)(a * b - a)) % 9]
-                + *arr[Math::absolute((i64)(a * b - b)) % 9]
-                + *arr[Math::absolute((i64)(a * b - a - b)) % 9] + 1 + a ^ b + a & b) / 4;
+        return *arr[Math::absolute((i64)(a * b)) % 10];
     }
 
     inline i32 mix_3(i32 a, i32 b, i32 c) {
@@ -47,16 +45,15 @@ namespace Common::Algorithm::Core::Hash {
 
         i32 max = (i32)t_max, min = (i32)t_min;
 
-        if (a == max)
-            return ((i64)(a * b * c) - min) % INT32_MAX;
+        i32 m1 = mix_2(a, b);
+        i32 m2 = mix_2(b, c);
+        i32 m3 = mix_2(a, c);
 
-        else if (c - a > b)
-            return (a * c + (b + c) * a) % INT32_MAX;
+        i32 ta = Math::gobit(m1, a);
+        i32 tb = Math::gobit(m2, b);
+        i32 tc = Math::gobit(m3, c);
 
-        else if (c - a < b)
-            return ((i64)(b * c - b - c) + Math::power(a, 2) % INT32_MAX);
-
-        else return ((i64)max * min + (max ^ min) * Math::mid(a, b, c)) % INT32_MAX;
+        return (max + min) / 2 + (m1 & ta) + (m2 | tb) + (m3 ^ tc);
     }
 
     inline i32 mix_5(i32 a, i32 b, i32 c, i32 d, i32 e) {
@@ -82,25 +79,29 @@ namespace Common::Algorithm::Core::Hash {
 
     inline void exp_1(i32 x, i32 *a, i32 *b, i32 *c) {
 
-        i32 ea = (x << 1) & 114514, eb = x ^ 1919, ec = (x >> 1) & 810;
+        i32 ea = (x << 1) & 114514, eb = x ^ 1919 + 10, ec = (x >> 1) & 810 + 100;
 
-        i32 ca = (i32)Math::gobit(x, 10), cb = (i32)Math::gobit(x >> 10, 10), cc = (i32)Math::gobit(
-            x >> 20, 10);
+        i32 ca = (i32)Math::gobit(x, ea) | x;
+        i32 cb = (i32)Math::gobit(x >> 1, eb) | x;
+        i32 cc = (i32)Math::gobit(x >> 2, ec) | x;
 
-        *a = (ea ^ ca) >> 1, *b = (eb ^ cb) >> 1, *c = (ec ^ cc) >> 1;
+        *a = ((ea ^ ca) >> 1) + ea * cb;
+        *b = ((eb ^ cb) >> 1) + eb * cc;
+        *c = ((ec ^ cc) >> 1) + ec * ca;
     }
 
     inline void exp_1(i32 x, i32 *a, i32 *b, i32 *c, i32 *d) {
 
-        i32 ea = (x << 1) & 114514, eb = x ^ 1919;
+        i32 ea = (x << 1) & 114514, eb = x ^ 1919 + 10;
+        i32 ec = (x >> 1) & 810 + 100, ed = x + 1000;
 
-        i32 ec = (x >> 1) & 810, ed = x;
+        i32 ca = (i32)Math::gobit(x, ea), cb = (i32)Math::gobit(x, eb);
+        i32 cc = (i32)Math::gobit(x, ec), cd = (i32)Math::gobit(x, ed);
 
-        i32 ca = (i32)Math::gobit(x, 8), cb = (i32)Math::gobit(x >> 8, 8);
-
-        i32 cc = (i32)Math::gobit(x >> 16, 8), cd = (i32)Math::gobit(x >> 24, 8);
-
-        *a = (ea ^ ca) >> 1, *b = (eb ^ cb) >> 1, *c = (ec ^ cc) >> 1, *d = (ed ^ cd) >> 1;
+        *a = ((ea ^ ca) >> 1) + ea * cb;
+        *b = ((eb ^ cb) >> 1) + eb * cc;
+        *c = ((ec ^ cc) >> 1) + ec * cd;
+        *d = ((ed ^ cd) >> 1) + ed * ca;
     }
 
     inline long double spring_func(long double x) {
