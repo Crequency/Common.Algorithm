@@ -6,6 +6,15 @@
 
 <h1 align="center">Common.Algorithm</h1>
 
+<p align="center">
+  <img alt="GitHub License" src="https://img.shields.io/github/license/Crequency/Common.Algorithm">
+  <img alt="GitHub workflow status" src="https://img.shields.io/github/actions/workflow/status/Crequency/Common.Algorithm/build.yml"></img>
+  <img alt="Nuget" src="https://img.shields.io/nuget/v/Common.Algorithm.Interop">
+  <img alt="Nuget" src="https://img.shields.io/nuget/dt/Common.Algorithm.Interop?label=nuget">
+  <img alt="GitHub issues" src="https://img.shields.io/github/issues/Crequency/Common.Algorithm">
+  <img alt="GitHub pull requests" src="https://img.shields.io/github/issues-pr/Crequency/Common.Algorithm">
+</p>
+
 # About
 
 Welcome to Crequency Common.Algorithm 🎉
