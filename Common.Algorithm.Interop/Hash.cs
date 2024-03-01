@@ -1,6 +1,6 @@
-﻿using Common.Algorithm.Interop.Exceptions;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using System.Text;
+using Common.Algorithm.Interop.Exceptions;
 
 namespace Common.Algorithm.Interop;
 
