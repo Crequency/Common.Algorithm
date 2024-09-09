@@ -3,6 +3,7 @@
 # $match = $query -match 'C:\\\S*'
 # $path = $match -replace 'MSBuildToolsPath','' -replace 'REG_SZ','' -replace ' ',''
 
+rm build
 mkdir build
 cd build
 cmake ..

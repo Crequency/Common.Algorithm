@@ -124,7 +124,7 @@ namespace Common::Algorithm::Core::Hash {
         if (length == hash_length)                                      //  长度刚好, 直接填充
             for (i32 i = 0; i < hash_length; ++i)
                 mid[i] = (i32)src[i];
-        else if (length > hash_length) {                                 //  源较长, n 元混合
+        else if (length > hash_length) {                                //  源较长, n 元混合
             mid[0] = mix_5(src[0], src[1], src[2], src[3], src[4]);
             mid[1] = mix_3(mid[0], src[1], src[2]);
             mid[2] = mix_5(mid[0], mid[1], src[2], src[3], src[4]);
@@ -133,7 +133,7 @@ namespace Common::Algorithm::Core::Hash {
                 mid[pos % hash_length] = mix_3(src[i], mid[pos - 1], mid[pos - 2]);
             }
         }
-        else {                                                         //  源较短, n 元扩展
+        else {                                                          //  源较短, n 元扩展
             for (i32 i = 0, t = 0; i < hash_length;                     //  初始化赋值
                  ++i, t = t == 0x7fffffff ? 0 : t + 1) {
                 mid[i] += t ^ mid[i % length];
@@ -150,7 +150,7 @@ namespace Common::Algorithm::Core::Hash {
                 if (mix_3(α, β, γ) % 2 == 0) γ += α * β;
                 else γ -= β - α;
             }
-            while (tar.size() < hash_length) {                           //  数量不足 2048 时
+            while (tar.size() < hash_length) {                          //  数量不足 2048 时
                 i32 x, y; x = tar.front(); tar.pop();                   //  取出两个进行分解并追加
                 y = tar.front(); tar.pop();
                 i32 xa, xb, xc, ya, yb, yc;                             //  分解值变量
