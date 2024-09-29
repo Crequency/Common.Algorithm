@@ -1,3 +1,6 @@
+## Platform ignores
+.DS_Store
+
 ## Ignore for Rider files
 .idea/
 
