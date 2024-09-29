@@ -15,42 +15,48 @@ on:
       - "**/*.md"
 
   workflow_dispatch:
-  
+
 jobs:
   build-on-windows:
     runs-on: windows-latest
 
     steps:
-
       - uses: actions/checkout@v3
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v2
+        uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '6.0.x'
-          include-prerelease: false
+          dotnet-version: "8.0.x"
 
-      - name: Build Interop
+      - name: Test
+        working-directory: "Common.Algorithm.Core.Test"
         run: |
-          cd "Common.Algorithm.Interop"
+          dotnet test
+
+      - name: Build
+        working-directory: "Common.Algorithm.Core"
+        run: |
           dotnet build -c Release
 
   build-on-ubuntu:
     runs-on: ubuntu-latest
 
     steps:
-
       - uses: actions/checkout@v3
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v2
+        uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '6.0.x'
-          include-prerelease: false
+          dotnet-version: "8.0.x"
 
-      - name: Build Interop
+      - name: Test
+        working-directory: "Common.Algorithm.Core.Test"
         run: |
-          cd "Common.Algorithm.Interop"
+          dotnet test
+
+      - name: Build
+        working-directory: "Common.Algorithm.Core"
+        run: |
           dotnet build -c Release
 
       - name: Add to GitHub Repo
@@ -60,29 +66,30 @@ jobs:
       - name: Install NuGet
         uses: nuget/setup-nuget@v1
         with:
-          nuget-version: '6.x'
+          nuget-version: "6.x"
 
       - name: Publish Package to GitHub and NuGet
         run: |
-          nuget push ./Common.Algorithm.Interop/bin/Release/*.nupkg -Source https://api.nuget.org/v3/index.json -SkipDuplicate -ApiKey ${{ secrets.NugetKey }} -NoSymbol
-          nuget push ./Common.Algorithm.Interop/bin/Release/*.nupkg -Source github -SkipDuplicate
+          nuget push ./Common.Algorithm.Core/bin/Release/*.nupkg -Source https://api.nuget.org/v3/index.json -SkipDuplicate -ApiKey ${{ secrets.NugetKey }} -NoSymbol
+          nuget push ./Common.Algorithm.Core/bin/Release/*.nupkg -Source github -SkipDuplicate
 
   build-on-macos:
     runs-on: macos-latest
 
     steps:
-
       - uses: actions/checkout@v3
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v2
+        uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '6.0.x'
-          include-prerelease: false
+          dotnet-version: "8.0.x"
 
-      - name: Build Interop
+      - name: Test
+        working-directory: "Common.Algorithm.Core.Test"
         run: |
-          cd "Common.Algorithm.Interop"
+          dotnet test
+
+      - name: Build
+        working-directory: "Common.Algorithm.Core"
+        run: |
           dotnet build -c Release
-
-
